@@ -1,8 +1,30 @@
-Fix:
+Fixes:
+
+Plugins:
+    ☐ Finding artifacts using target url or socket
+        ☐ Writable directories or files used by process
+        ☐ Readable sensitive config
+        ☐ network or unix sockets listening
+            ☐ Tell if any of the sockets are HTTP based
+            ☐ Tell if any of the sockets are unauthenticated
+    ☐ Finding issues in dpysrv
+        ☐ Authorization
+        ☐ CSRF and CORS
+        ☐ Command injection candidates
+    ☐ Finding issues in DJS
+    ☐ Finding issues in JAVA
+        ☐ Enumerate all endpoints from code
+        ☐ Sqli from mybatis
+        ☐ Command injection candidates
 
 Code:
 
 Ideas:
+    ☐ Add a prompt to mate interpreter
+        ✔ When previous command was successful: mate [+] > @done(20-11-21 18:47)
+        ☐ When command is in progress: mate [*] >
+        ☐ When previous command failed: mate [!] >
+
 
 Misc:
     ✔ Prepare project skeleton for first commit @done(20-11-21 02:00)
