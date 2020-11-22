@@ -17,6 +17,11 @@ def show_all():
     show_context()
 
 class MateShow(MateModule):
+
+    DESCRIPTION = {
+        "show": "Generic command for showing things about mate.",
+    }
+
     @mate_exception_handler
     def execute(self, entity="all"):
         if entity == "all":

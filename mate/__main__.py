@@ -1,6 +1,7 @@
 import sys
 import os
 import re
+import shlex
 import pluggy
 import argparse
 
@@ -31,13 +32,17 @@ def print_banner():
     print('For help, type "help".')
 
 def prompt_style():
+    if mate_config.prompt_status == "+":
+        status_color = "#00aa00"
+    elif mate_config.prompt_status == "-":
+        status_color = "#aa0000"
     style = Style.from_dict({
         # User input (default text).
         '':          '#ffffff',
         # Prompt.
         'execname': 'ansicyan',
         'bracket': '#ffffff',
-        'status': '#00aa00',
+        'status': status_color,
         'arrow': 'ansicyan',
     })
     return style
@@ -46,39 +51,16 @@ def prompt_style():
 def prompt_message():
     message = [
         ('class:execname', 'mate'),
-        ('class:bracket',       ' ['),
-        ('class:status',     '+'),
-        ('class:bracket',    '] '),
-        ('class:arrow',     '> '),
+        ('class:bracket', ' ['),
+        ('class:status', mate_config.prompt_status),
+        ('class:bracket', '] '),
+        ('class:arrow', '> '),
     ]
 
     return message
 
-def parse_command(command_str):
-    command_path = "/".join(command_str.split())
-    # no op
-    if len(command_path) == 0:
-        return
-
-    # Get all command dictionary's keys
-    # Make a list of them
-    # sort the list so that key with maximum length is at first place
-    command_keys = list(mate_config.command.keys())
-    command_keys.sort(key=len)
-    for key in command_keys[::-1]:
-        if command_path.startswith(key):
-            command_len = len(key.split('/'))
-            # remove command length from command string provided to get the args
-            args = tuple(command_str.split()[command_len:])
-            try:
-                mate_config.command[key](*args)
-            except TypeError:
-                original_command = ' '.join(key.split('/'))
-                extra_command = ' '.join(args)
-                print(red("Undefined " + original_command + " command: \"" +
-                    extra_command + "\". Try \"help " + original_command + "\"."))
-            # break after first function call
-            break
+def set_prompt_status(status):
+    mate_config.prompt_status = status
 
 def parse_args(args):
     parse = argparse.ArgumentParser()
@@ -106,12 +88,16 @@ def main():
     if args.socket:
         mate_config.socket = args.socket
     
+    # a nice banner
+    print_banner()
+
     # initializing plugin manager and mate modules
+    print("Loading modules... ", end="")
     pm = get_plugin_manager()
     record = MateRecord(pm.hook)
     record.add_modules()
     mate_config.module_record = record
-    #print(record.modules)
+    print("Done.")
 
     # setting up interpreter prompt
     history_file = mate_config.mate_hist
@@ -121,8 +107,6 @@ def main():
             wrap_lines=True,
     )
 
-    # a nice banner
-    print_banner()
     try:
         while True:
             prompt = session.prompt(
@@ -131,7 +115,11 @@ def main():
             )
             command = prompt.strip()
             # passing cmd string tokens for parsing
-            record.parse_command(command.split())
+            command_status = record.parse_command(shlex.split(command))
+            if command_status:
+                set_prompt_status("+")
+            else:
+                set_prompt_status("-")
 
     except KeyboardInterrupt:
         print(yellow("\n( ╥﹏╥) ノシ  ") + red("bye...\n"))

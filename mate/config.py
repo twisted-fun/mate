@@ -27,6 +27,7 @@ class MateConfig(object):
             Path(self.mate_hist).touch()
         
         # initialize command hierarchy
+        self.prompt_status = "+"
         self.command = {}
         self.module_record = None
         

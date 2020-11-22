@@ -1,5 +1,8 @@
 Fixes:
 
+Tests:
+    ☐ Create a test suite.
+
 Plugins:
     ☐ Finding artifacts using target url or socket
         ☐ Writable directories or files used by process
@@ -7,11 +10,11 @@ Plugins:
         ☐ network or unix sockets listening
             ☐ Tell if any of the sockets are HTTP based
             ☐ Tell if any of the sockets are unauthenticated
-    ☐ Finding issues in dpysrv
+    ☐ Finding issues in applications using python frameworks
         ☐ Authorization
         ☐ CSRF and CORS
         ☐ Command injection candidates
-    ☐ Finding issues in DJS
+    ☐ Finding issues in applications using JS frameworks
     ☐ Finding issues in JAVA
         ☐ Enumerate all endpoints from code
         ☐ Sqli from mybatis
@@ -22,12 +25,22 @@ Code:
     ✔ Implement mate_exception_handler and MateUndefined exception in utils to better propogate exceptions @done(20-11-22 19:01)
     ✔ Implement mate.modules.core classes to better maintain pluggability @done(20-11-22 19:04)
     ✔ Move plugin libraries to mate.libs @done(20-11-22 19:06)
+    ✔ Add help module's support @done(20-11-23 00:35)
+        ☐ Add support for printing detailed usage
+    ☐ Add docstring to each and everything
+    ☐ Don't catch all TypeError exceptions from execute(). Change it to something more robust.
+    ☐ Remove MateRecord Class and make all base commands subcommand of "mate" command. It will make things easy to implement.
+    ☐ Create a documentation
+        ☐ Core functions
+        ☐ Inbuilt modules
+        ☐ How to write plugins
 
 Ideas:
-    ☐ Add a prompt to mate interpreter
+    ✔ Add a prompt to mate interpreter @done(20-11-22 22:58)
         ✔ When previous command was successful: mate [+] > @done(20-11-21 18:47)
         ☐ When command is in progress: mate [*] >
-        ☐ When previous command failed: mate [!] >
+        ✔ When previous command failed: mate [-] > @done(20-11-22 22:57)
+    ☐ Add calculator similar to IDA Pro
 
 
 Misc:

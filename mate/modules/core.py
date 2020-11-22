@@ -19,6 +19,16 @@ class MateRecord:
         self.hook = hook
         self.modules = []
     
+    def print_description(self):
+        print()
+        for module in self.get_modules():
+            if module.module_name in module.DESCRIPTION:
+                desc = module.DESCRIPTION[module.module_name]
+            else:
+                desc = "No description provided."
+            print(magenta(module.module_name) + " -- " + desc)
+        print()
+
     def get_modules(self):
         """
         Returns:
@@ -45,6 +55,8 @@ class MateRecord:
                 if node == module.get_name():
                     tmp_module = module
                     break
+        if tmp_module == self:
+            return None
         return tmp_module
 
     def parse_command(self, cmd_tokens):
@@ -54,20 +66,23 @@ class MateRecord:
             cmd_tokens ([list]): [tokenized command string]
         """
         if len(cmd_tokens) == 0:
-            return
+            return True
         else:
             for module in self.get_modules():
                 path = module.match_path(cmd_tokens)
                 if path != []:
                     module_to_exec = self.get_module_by_path(path)
                     params = tuple(cmd_tokens[len(path):])
-                    module_to_exec.execute(*params)
-                    return
+                    return module_to_exec.execute(*params)
             invalid_command = " ".join(cmd_tokens)
             print(red("Undefined command: \"{}\". Try \"help\".".format(invalid_command)))
+            return False
 
 
 class MateModule:
+
+    # Used by help module
+    DESCRIPTION = {}
 
     def __init__(self, module_name):
         self.submodules = []
@@ -76,6 +91,16 @@ class MateModule:
     
     def get_name(self):
         return self.module_name
+    
+    def print_description(self):
+        print()
+        for cmd in sorted(self.DESCRIPTION):
+            if cmd in self.DESCRIPTION:
+                desc = self.DESCRIPTION[cmd]
+            else:
+                desc = "No description provided."
+            print(magenta(cmd) + " -- " + desc)
+        print()
 
     def get_modules(self):
         """
@@ -87,6 +112,8 @@ class MateModule:
     def add_submodule(self, module):
         module.parent = self
         self.submodules.append(module)
+        # append description of submodule in parent
+        self.DESCRIPTION = {**self.DESCRIPTION, **module.DESCRIPTION}
     
     def get_submodules_names(self):
         if self.submodules != []:
