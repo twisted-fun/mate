@@ -1,10 +1,13 @@
 import sys
 import os
 from pathlib import Path
+from mate.__version__ import __author__, __version__
 
 class MateConfig(object):
     def __init__(self):
         home = Path.home()
+        self.mate_version = __version__
+        self.mate_author = __author__
         self.mate_dir = (
             Path(".mate").resolve()
             if Path(".mate").exists()
@@ -23,5 +26,10 @@ class MateConfig(object):
             Path(self.mate_conf).touch()
             Path(self.mate_hist).touch()
         
+        # initialize command hierarchy
+        self.command = {}
+        self.module_record = None
         
-
+def config_init():
+    global mate_config
+    mate_config = MateConfig()

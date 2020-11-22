@@ -18,6 +18,10 @@ Plugins:
         ☐ Command injection candidates
 
 Code:
+    ✔ Add a basic plugin support @done(20-11-22 18:58)
+    ✔ Implement mate_exception_handler and MateUndefined exception in utils to better propogate exceptions @done(20-11-22 19:01)
+    ✔ Implement mate.modules.core classes to better maintain pluggability @done(20-11-22 19:04)
+    ✔ Move plugin libraries to mate.libs @done(20-11-22 19:06)
 
 Ideas:
     ☐ Add a prompt to mate interpreter
@@ -30,3 +34,4 @@ Misc:
     ✔ Prepare project skeleton for first commit @done(20-11-21 02:00)
 
 Archive:
+✔ Changed structure of the project for robustness @done(20-11-22 19:00)
