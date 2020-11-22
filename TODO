@@ -1,4 +1,5 @@
 Fixes:
+    ☐ Fix get_module_by_path function. Currently it matches with module_name, not with module's path
 
 Tests:
     ☐ Create a test suite.
@@ -29,7 +30,7 @@ Code:
         ☐ Add support for printing detailed usage
     ☐ Add docstring to each and everything
     ☐ Don't catch all TypeError exceptions from execute(). Change it to something more robust.
-    ☐ Remove MateRecord Class and make all base commands subcommand of "mate" command. It will make things easy to implement.
+    ✔ Remove MateRecord Class and make all base commands subcommand of "mate" command. It will make things easy to implement. @done(20-11-23 03:36)
     ☐ Create a documentation
         ☐ Core functions
         ☐ Inbuilt modules

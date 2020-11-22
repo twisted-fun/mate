@@ -10,7 +10,7 @@ def mate_exception_handler(func):
             if retval is not False:
                 return True
         except TypeError:
-            original_command = " ".join(args[0].get_path())
+            original_command = " ".join(args[0].get_path()[1:])
             extra_command = " ".join(list(args)[1:])
             print(red("Undefined {} command: \"{}\". Try \"help {}\".".format(original_command, extra_command, original_command)))
             return False

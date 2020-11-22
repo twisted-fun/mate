@@ -94,7 +94,7 @@ def main():
     # initializing plugin manager and mate modules
     print("Loading modules... ", end="")
     pm = get_plugin_manager()
-    record = MateRecord(pm.hook)
+    record = MateRecord("mate", pm.hook)
     record.add_modules()
     mate_config.module_record = record
     print("Done.")
@@ -115,7 +115,7 @@ def main():
             )
             command = prompt.strip()
             # passing cmd string tokens for parsing
-            command_status = record.parse_command(shlex.split(command))
+            command_status = record.parse_command(["mate"] + shlex.split(command))
             if command_status:
                 set_prompt_status("+")
             else:
