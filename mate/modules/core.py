@@ -1,5 +1,6 @@
 import sys
 import re
+import pathlib
 import subprocess
 import itertools
 
@@ -93,8 +94,30 @@ class MateModule:
     def execute(self, inline_submodule_name, *args):
         self.INLINE_SUBMODULES[inline_submodule_name](*args)
 
+def ls_default(*args):
+    """Satisfies your command line itch.
+    """
+    ls_args = " ".join(args)
+    print(subprocess.getoutput("ls " + ls_args + " --color"))
+
+def pwd_default(*args):
+    """Prints current working directory.
+    """
+    print(magenta("Working directory: ") + str(pathlib.Path.cwd()))
+
+def sh_default(*args):
+    """Interface to shell.
+    """
+    sh_args = " ".join(args)
+    print(subprocess.getoutput(sh_args))
 
 class MateRecord(MateModule):
+
+    INLINE_SUBMODULES = {
+        "ls": ls_default,
+        "pwd": pwd_default,
+        "sh": sh_default,
+    }
 
     def __init__(self, module_name, hook):
         self.hook = hook
@@ -145,6 +168,10 @@ class MateRecord(MateModule):
                     else:
                         params = tuple(cmd_tokens[len(path)+1:])
                     return module_to_exec.execute(inline_submodule_name, *params)
+            
+            if cmd_tokens[0] in self.INLINE_SUBMODULES:
+                self.INLINE_SUBMODULES[cmd_tokens[0]](*cmd_tokens[1:])
+                return True
             invalid_command = cmd_tokens[0]
             print(red("Undefined command: \"{}\". Try \"help\".".format(invalid_command)))
             return False
