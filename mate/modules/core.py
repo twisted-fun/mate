@@ -6,11 +6,16 @@ import itertools
 from mate.utils.colors import red, yellow, cyan, magenta, green
 from mate.utils.exceptions import MateUndefined, mate_exception_handler
 
-
+# TODO: Change classes internal function name to have underscore in the beginning
 class MateModule:
 
     # Used by help module
     DESCRIPTION = {}
+
+    INLINE_SUBMODULES = {
+        #"":node_function # for default action on module
+        #"node_name": node_function,
+    }
 
     def __init__(self, module_name):
         self.submodules = []
@@ -102,9 +107,10 @@ class MateModule:
                 ret_path = module.match_path(path)
                 break
         return ret_path
-                  
-    def execute(self):
-        pass
+    
+    @mate_exception_handler
+    def execute(self, inline_submodule_name, *args):
+        self.INLINE_SUBMODULES[inline_submodule_name](*args)
 
 
 class MateRecord(MateModule):
@@ -151,8 +157,13 @@ class MateRecord(MateModule):
                 path = module.match_path(cmd_tokens)
                 if path != []:
                     module_to_exec = self.get_module_by_path(path)
-                    params = tuple(cmd_tokens[len(path):])
-                    return module_to_exec.execute(*params)
-            invalid_command = " ".join(cmd_tokens)
+                    inline_submodule_name = "".join(cmd_tokens[len(path):len(path)+1])
+                    if inline_submodule_name not in module_to_exec.INLINE_SUBMODULES:
+                        inline_submodule_name = ""
+                        params = tuple(cmd_tokens[len(path):])
+                    else:
+                        params = tuple(cmd_tokens[len(path)+1:])
+                    return module_to_exec.execute(inline_submodule_name, *params)
+            invalid_command = cmd_tokens[0]
             print(red("Undefined command: \"{}\". Try \"help\".".format(invalid_command)))
             return False
