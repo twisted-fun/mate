@@ -25,7 +25,7 @@ class MateModule:
         # remove "mate" from paths to match with description key values
         wanted = []
         for path in paths:
-            wanted.append(" ".join(path[1:]))
+            wanted.append(" ".join(path))
         print()
         for cmd in sorted(self.DESCRIPTION):
             if cmd not in wanted:
@@ -64,7 +64,7 @@ class MateModule:
         while tmp_module.parent is not None:
             tmp_module = tmp_module.parent
             path.append(tmp_module.get_name())
-        return path[::-1]
+        return path[::-1][1:]
 
     def get_paths(self):
         """Returns path of itself and paths of its immediate submodules
@@ -149,10 +149,10 @@ class MateRecord(MateModule):
         else:
             for module in self.get_modules():
                 path = module.match_path(cmd_tokens)
-                if path != ["mate"]:
+                if path != []:
                     module_to_exec = self.get_module_by_path(path)
                     params = tuple(cmd_tokens[len(path):])
                     return module_to_exec.execute(*params)
-            invalid_command = " ".join(cmd_tokens[1:])
+            invalid_command = " ".join(cmd_tokens)
             print(red("Undefined command: \"{}\". Try \"help\".".format(invalid_command)))
             return False

@@ -30,6 +30,7 @@ Code:
         ☐ Add support for printing detailed usage
     ☐ Add docstring to each and everything
     ☐ Don't catch all TypeError exceptions from execute(). Change it to something more robust.
+    ✔ Remove "mate" root node in module's path, it's side effects make code hard to read. @done(20-11-23 19:02)
     ✔ Remove MateRecord Class and make all base commands subcommand of "mate" command. It will make things easy to implement. @done(20-11-23 03:36)
     ☐ Create a documentation
         ☐ Core functions
@@ -41,7 +42,8 @@ Ideas:
         ✔ When previous command was successful: mate [+] > @done(20-11-21 18:47)
         ☐ When command is in progress: mate [*] >
         ✔ When previous command failed: mate [-] > @done(20-11-22 22:57)
-    ☐ Add calculator similar to IDA Pro
+    ☐ Add calculator similar to IDA Pro.
+    ☐ Add nested command completion.
 
 
 Misc:

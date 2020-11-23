@@ -12,6 +12,7 @@ from mate.config import mate_config
 from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.styles import Style
+from prompt_toolkit.completion import WordCompleter
 
 from mate.libs import mate_lib, mate_hookspecs
 from mate.utils.colors import red, yellow, cyan, magenta, green
@@ -107,15 +108,24 @@ def main():
             wrap_lines=True,
     )
 
+    auto_completer = WordCompleter([
+        'help',
+        'find',
+        'calc',
+        'show',
+    ])
+
     try:
         while True:
             prompt = session.prompt(
                 prompt_message(),
                 style=prompt_style(),
+                completer=auto_completer,
+                complete_while_typing=True
             )
             command = prompt.strip()
             # passing cmd string tokens for parsing
-            command_status = record.parse_command(["mate"] + shlex.split(command))
+            command_status = record.parse_command(shlex.split(command))
             if command_status:
                 set_prompt_status("+")
             else:
