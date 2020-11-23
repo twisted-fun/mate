@@ -9,9 +9,6 @@ from mate.utils.exceptions import MateUndefined, mate_exception_handler
 # TODO: Change classes internal function name to have underscore in the beginning
 class MateModule:
 
-    # Used by help module
-    DESCRIPTION = {}
-
     INLINE_SUBMODULES = {
         #"":node_function # for default action on module
         #"node_name": node_function,
@@ -24,20 +21,6 @@ class MateModule:
     
     def get_name(self):
         return self.module_name
-    
-    def print_description(self):
-        paths = self.get_paths()
-        # remove "mate" from paths to match with description key values
-        wanted = []
-        for path in paths:
-            wanted.append(" ".join(path))
-        print()
-        for cmd in sorted(self.DESCRIPTION):
-            if cmd not in wanted:
-                continue
-            desc = self.DESCRIPTION[cmd]
-            print(magenta(cmd) + " -- " + desc)
-        print()
 
     def get_modules(self):
         """
@@ -49,8 +32,6 @@ class MateModule:
     def add_submodule(self, module):
         module.parent = self
         self.submodules.append(module)
-        # append description of submodule in parent
-        self.DESCRIPTION = {**self.DESCRIPTION, **module.DESCRIPTION}
     
     def get_submodules_names(self):
         if self.submodules != []:

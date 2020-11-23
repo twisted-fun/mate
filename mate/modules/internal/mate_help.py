@@ -1,24 +1,39 @@
 import sys
 import shlex
+from docstring_parser import parse
 from mate.modules.core import MateModule
+from mate.utils.colors import magenta
 from mate.utils.exceptions import mate_exception_handler, MateUndefined
 from mate.config import mate_config
 
 def help_default(*args):
+    """Print list of commands.
+    """
     if len(args) == 0:
-        mate_config.module_record.print_description()
+        module = mate_config.module_record
     else:
         module = mate_config.module_record.get_module_by_path(args)
         if module is None:
             raise MateUndefined
         else:
-            module.print_description()
+            pass
+    module_path = module.get_path()
+    print()
+    # print description of inline submodules
+    for m in module.INLINE_SUBMODULES:
+        doc = parse(module.INLINE_SUBMODULES[m].__doc__)
+        desc = doc.short_description or "No description provided."
+        cmd_path = " ".join(module_path + [m]).strip()
+        print(magenta(cmd_path) + " -- " + desc)
+    # print description of submodules
+    for m in module.get_modules():
+        doc = parse(m.INLINE_SUBMODULES[""].__doc__)
+        desc = doc.short_description or "No description provided."
+        cmd_path = " ".join(m.get_path()).strip()
+        print(magenta(cmd_path) + " -- " + desc)
+    print()
 
 class MateHelp(MateModule):
-
-    DESCRIPTION = {
-        "help": "Print list of commands."
-    }
 
     INLINE_SUBMODULES = {
         "": help_default,

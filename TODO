@@ -1,6 +1,7 @@
 Fixes:
     ☐ Fix get_module_by_path function. Currently it matches with module_name, not with module's path
     ☐ Fix ambiguty between module's default handler's argument and module's inline submodule handler's name
+    ☐ Fix help module. For example "help show all" doesn't show only that.
 
 Tests:
     ☐ Create a test suite.
@@ -29,12 +30,14 @@ Code:
     ✔ Move plugin libraries to mate.libs @done(20-11-22 19:06)
     ✔ Add help module's support @done(20-11-23 00:35)
         ☐ Add support for printing detailed usage
+        ✔ Parse help's description and usage details from docstring instead of current bs @done(20-11-24 03:32)
     ☐ Add docstring to each and everything
     ✔ Add inline submodule support @done(20-11-24 01:51)
     ☐ Don't catch all TypeError exceptions from execute(). Change it to something more robust.
     ☐ Forbid print statement in module's execution, instead make a powerful central print that executes whatever module returns.
     ✔ Remove "mate" root node in module's path, it's side effects make code hard to read. @done(20-11-23 19:02)
     ✔ Remove MateRecord Class and make all base commands subcommand of "mate" command. It will make things easy to implement. @done(20-11-23 03:36)
+    ☐ Add ls, pwd, sh as default inline subcommands.
     ☐ Create a documentation
         ☐ Core functions
         ☐ Inbuilt modules
@@ -47,6 +50,7 @@ Ideas:
         ✔ When previous command failed: mate [-] > @done(20-11-22 22:57)
     ☐ Add calculator similar to IDA Pro.
     ☐ Add nested command completion.
+    ☐ Explore lru_cache decorator for performance gains.
 
 
 Misc:
