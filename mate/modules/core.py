@@ -9,42 +9,70 @@ from mate.utils.exceptions import MateUndefined, mate_exception_handler
 
 # TODO: Change classes internal function name to have underscore in the beginning
 class MateModule:
+    """Base class for all mate's modules.
 
+    Returns:
+        MateModuleObject: Returns a module object that is easily pluggable into mate.
+    """
+
+    # Dictionary to keep track of inline submodules of a MateModule.
     INLINE_SUBMODULES = {
         #"":node_function # for default action on module
         #"node_name": node_function,
     }
 
     def __init__(self, module_name):
+        """Initializes MateModule object.
+
+        Args:
+            module_name (string): Name of MateModule.
+        """
         self.submodules = []
         self.module_name = module_name
         self.parent = None
     
     def get_name(self):
+        """Get module name.
+
+        Returns:
+            string: Module name of current MateModule.
+        """
         return self.module_name
 
+    # TODO: Change get_modules to get_submodules
     def get_modules(self):
-        """
+        """Returns submodules.
+
         Returns:
-            [list]: [Returns list of submodule in the module]
+            list: Contains submodules of current MateModule.
         """
         return self.submodules
     
     def add_submodule(self, module):
+        """Proper way to add submodule to a MateModule.
+
+        Args:
+            module (MateModule): Submodule to be added.
+        """
         module.parent = self
         self.submodules.append(module)
     
     def get_submodules_names(self):
+        """Get names of immediate submodules.
+
+        Returns:
+            list: Contains names of immediate submodules.
+        """
         if self.submodules != []:
             return [submodule.get_name() for submodule in self.submodules]
         else:
             return []
 
     def get_path(self):
-        """[Calculates path of current module]
+        """Calculates path of current module.
 
         Returns:
-            [list]: [First element of the list is starting point of path and last element is current module itself]
+            list: First element of the list is starting point of path and last element is current module itself.
         """
         path = [self.get_name()]
         tmp_module = self
@@ -54,7 +82,10 @@ class MateModule:
         return path[::-1][1:]
 
     def get_paths(self):
-        """Returns path of itself and paths of its immediate submodules
+        """Returns path of itself and paths of its immediate submodules.
+
+        Returns:
+            list: Contains paths calculated.
         """
         paths = [self.get_path()]
         for submodule in self.submodules:
@@ -62,20 +93,43 @@ class MateModule:
         return paths
 
     def get_all_paths(self):
+        """Returns path of itself and paths of all submodules by going recursive.
+
+        Returns:
+            list: Contains paths calculated.
+        """
         paths = [self.get_path()]
         if self.submodules != []:
             for submodule in self.submodules:
                 paths += submodule.get_all_paths()
         return paths
 
+    # TODO: Change this function name to get_submodule_by_name
     def match_submodule(self, module_name):
+        """Matches provided module name with it's submodules.
+
+        Args:
+            module_name (string): Name of a MateModule that is submodule to current module.
+
+        Returns:
+            MateModule: Return the submodule that matches with the name provided.
+        """
         if self.submodules != []:
             for module in self.submodules:
                 if module.get_name() == module_name:
                     return module
         return None
     
+    # TODO: Convert this functionality into get_submodule_by_path
     def match_path(self, path):
+        """Matches provided path with submodule's paths and returns most matched submodule's path.
+
+        Args:
+            path (list): List of string that is matched against submodule's paths.
+
+        Returns:
+            path: Returns most matched submodule's path.
+        """
         if self.parent == None:
             ret_path = []
         else:
@@ -92,6 +146,12 @@ class MateModule:
     
     @mate_exception_handler
     def execute(self, inline_submodule_name, *args):
+        """Executor of inline submodules.
+
+        Args:
+            inline_submodule_name (string): Name of inline submodule.
+            args (tuple): Tuple that contains arguments of inline submodule.
+        """
         self.INLINE_SUBMODULES[inline_submodule_name](*args)
 
 def ls_default(*args):
@@ -112,7 +172,10 @@ def sh_default(*args):
     print(subprocess.getoutput(sh_args))
 
 class MateRecord(MateModule):
+    """Keep track of all modules in mate.
+    """
 
+    # Mate's default inline submodules.
     INLINE_SUBMODULES = {
         "ls": ls_default,
         "pwd": pwd_default,
@@ -120,24 +183,34 @@ class MateRecord(MateModule):
     }
 
     def __init__(self, module_name, hook):
+        """Initializes ModuleRecord and adds a hook for plugin registrations.
+
+        Args:
+            module_name (string): Name of ModuleRecord object.
+            hook (_HookRelay): Hook that is used for plugin registration.
+        """
         self.hook = hook
         # invoke MateModule's init
         super().__init__(module_name)
 
     def add_modules(self):
+        """Loads all modules and plugins dynamically from hook.
+        """
         results = self.hook.mate_add_modules()
         all_modules = list(itertools.chain(*results))
         for module in all_modules:
             self.add_submodule(module)
-    
-    def match_module_by_name(self, module_name):
-        if self.submodules != []:
-            for module in self.submodules:
-                if module.get_name() == module_name:
-                    return module
-        return None
 
+    # TODO: Fix get_module_by_path function. Currently it matches with module_name, not with module's path
     def get_module_by_path(self, path):
+        """Returns the submodule with the exact path that is provided.
+
+        Args:
+            path (list): List that contains module names in a specific order.
+
+        Returns:
+            MateModule: Submodule that matched the path.
+        """
         tmp_module = self
         for node in path:
             for module in tmp_module.get_modules():
@@ -149,10 +222,10 @@ class MateRecord(MateModule):
         return tmp_module
 
     def parse_command(self, cmd_tokens):
-        """[parse and execute command from command tokens provided]
+        """Parse and execute command from command tokens provided.
 
         Args:
-            cmd_tokens ([list]): [tokenized command string]
+            cmd_tokens (list): Tokenized command string.
         """
         if len(cmd_tokens) == 0:
             return True

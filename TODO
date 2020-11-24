@@ -1,5 +1,4 @@
 Fixes:
-    ☐ Fix get_module_by_path function. Currently it matches with module_name, not with module's path
     ☐ Fix ambiguty between module's default handler's argument and module's inline submodule handler's name
     ☐ Fix help module. For example "help show all" doesn't show only that.
 
@@ -31,7 +30,7 @@ Code:
     ✔ Add help module's support @done(20-11-23 00:35)
         ☐ Add support for printing detailed usage
         ✔ Parse help's description and usage details from docstring instead of current bs @done(20-11-24 03:32)
-    ☐ Add docstring to each and everything
+    ✔ Add docstring to each and everything @done(20-11-24 15:23)
     ✔ Add inline submodule support @done(20-11-24 01:51)
     ☐ Don't catch all TypeError exceptions from execute(). Change it to something more robust.
     ☐ Forbid print statement in module's execution, instead make a powerful central print that executes whatever module returns.

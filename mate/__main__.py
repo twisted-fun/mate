@@ -22,6 +22,11 @@ import mate.modules
 from mate.__version__ import __version__
 
 def get_plugin_manager():
+    """Initializes plugin manager and registers plugin library.
+
+    Returns:
+        pm: plugin manager
+    """
     pm = pluggy.PluginManager("mate")
     pm.add_hookspecs(mate_hookspecs)
     pm.load_setuptools_entrypoints("mate")
@@ -29,10 +34,17 @@ def get_plugin_manager():
     return pm
 
 def print_banner():
+    """Prints mate's banner i.e. version info.
+    """
     print(green("mate " + __version__))
     print('For help, type "help".')
 
 def prompt_style():
+    """Specifies the colors of different block/classes in mate's prompt
+
+    Returns:
+        style: Style object is parsed by prompt toolkit to make prompt fancy.
+    """
     if mate_config.prompt_status == "+":
         status_color = "#00aa00"
     elif mate_config.prompt_status == "-":
@@ -50,6 +62,11 @@ def prompt_style():
 
 
 def prompt_message():
+    """Creates mate's prompt design.
+
+    Returns:
+        message: Message object is parsed by prompt toolkit to create prompt.
+    """
     message = [
         ('class:execname', 'mate'),
         ('class:bracket', ' ['),
@@ -61,9 +78,23 @@ def prompt_message():
     return message
 
 def set_prompt_status(status):
+    """Sets state (+/-) into mate's prompt,
+    which reflects whether last command was executed successfully or not
+
+    Args:
+        status ([type]): [description]
+    """
     mate_config.prompt_status = status
 
 def parse_args(args):
+    """Parse command line arguments of mate.
+
+    Args:
+        args (list): List of arguments (except sys.argv[0]) passed to mate.
+
+    Returns:
+        parsed_args: Collection of arguments parsed by argparse.
+    """
     parse = argparse.ArgumentParser()
     parse.add_argument(
         "-V", "--version", action="version", version="%(prog)s " + __version__ 
@@ -80,6 +111,8 @@ def parse_args(args):
     return parse.parse_args(args)
 
 def main():
+    """I do the actual work.
+    """
     # command line arg parsing
     args = parse_args(sys.argv[1:])
     if args.project_dir:

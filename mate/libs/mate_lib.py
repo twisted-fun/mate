@@ -8,6 +8,11 @@ from mate.modules.internal.mate_plugins import MateShowPlugins
 
 @hookimpl
 def mate_add_modules():
+    """Responsible to collect all modules and plugins.
+
+    Returns:
+        list: Contains MateModules to be added in MateRecord.
+    """
     modules = []
     # Adding help
     modules.append(MateHelp("help"))

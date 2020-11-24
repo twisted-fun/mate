@@ -4,5 +4,5 @@ hookspec = pluggy.HookspecMarker("mate")
 
 @hookspec
 def mate_add_modules():
-    """[summary]
+    """Prototype of module/plugin collection function.
     """

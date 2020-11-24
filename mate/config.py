@@ -4,6 +4,8 @@ from pathlib import Path
 from mate.__version__ import __author__, __version__
 
 class MateConfig(object):
+    """Central config class for mate.
+    """
     def __init__(self):
         home = Path.home()
         self.mate_version = __version__
@@ -32,5 +34,7 @@ class MateConfig(object):
         self.module_record = None
         
 def config_init():
+    """Initialize global config to be used through out mate.
+    """
     global mate_config
     mate_config = MateConfig()
