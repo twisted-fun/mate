@@ -5,7 +5,7 @@ import subprocess
 import itertools
 
 from mate.utils.colors import red, yellow, cyan, magenta, green
-from mate.utils.logger import log
+from mate.utils.logger import log, console
 from mate.utils.exceptions import MateUndefined, mate_exception_handler
 
 # TODO: Change classes internal function name to have underscore in the beginning
@@ -153,6 +153,11 @@ class MateModule:
             inline_submodule_name (string): Name of inline submodule.
             args (tuple): Tuple that contains arguments of inline submodule.
         """
+        log.debug(
+            f"(self={self.__repr__()}, " +
+            f"inline_submodule_name={inline_submodule_name.__repr__()}, " +
+            f"args={args.__repr__()})"
+        )
         self.INLINE_SUBMODULES[inline_submodule_name](*args)
 
 def ls_default(*args):
@@ -229,7 +234,7 @@ class MateRecord(MateModule):
             cmd_tokens (list): Tokenized command string.
         """
         
-        log.debug(cmd_tokens)
+        log.debug(f"(self={self.__repr__()}, cmd_tokens={cmd_tokens.__repr__()})")
 
         if len(cmd_tokens) == 0:
             return True

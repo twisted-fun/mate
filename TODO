@@ -48,6 +48,7 @@ Code:
     ✔ Add ls, pwd, sh as default inline subcommands. @done(20-11-24 04:14)
     Debugging:
         ✔ Add a debug mode, using logging and rich. @done(20-11-25 00:44)
+        ✔ Log detailed traceback for any unhandled exception inside shell. @done(20-11-25 03:16)
         ☐ Add log.debug statement in every non-recursive function with function name and arguments.
     Documentation:
         ✔ Create a skeleton @done(20-11-24 18:58)

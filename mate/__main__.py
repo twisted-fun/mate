@@ -155,7 +155,7 @@ def main():
         'show',
     ])
 
-    log.debug("Starting shell.")
+    log.debug("- Starting shell.")
 
     try:
         while True:
@@ -176,3 +176,5 @@ def main():
     except KeyboardInterrupt:
         print(yellow("\n( ╥﹏╥) ノシ  ") + red("bye...\n"))
         sys.exit()
+    except:
+        log.error("Wait! What happened now...", exc_info=True)
