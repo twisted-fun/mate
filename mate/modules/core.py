@@ -5,6 +5,7 @@ import subprocess
 import itertools
 
 from mate.utils.colors import red, yellow, cyan, magenta, green
+from mate.utils.logger import log
 from mate.utils.exceptions import MateUndefined, mate_exception_handler
 
 # TODO: Change classes internal function name to have underscore in the beginning
@@ -227,6 +228,9 @@ class MateRecord(MateModule):
         Args:
             cmd_tokens (list): Tokenized command string.
         """
+        
+        log.debug(cmd_tokens)
+
         if len(cmd_tokens) == 0:
             return True
         else:

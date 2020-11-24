@@ -3,6 +3,7 @@ import os
 import re
 import shlex
 import pluggy
+import logging
 import argparse
 
 from mate.config import config_init
@@ -15,6 +16,7 @@ from prompt_toolkit.styles import Style
 from prompt_toolkit.completion import WordCompleter
 
 from mate.libs import mate_lib, mate_hookspecs
+from mate.utils.logger import log, shellLogHandler
 from mate.utils.colors import red, yellow, cyan, magenta, green
 from mate.modules.core import MateRecord
 
@@ -100,13 +102,16 @@ def parse_args(args):
         "-V", "--version", action="version", version="%(prog)s " + __version__ 
     )
     parse.add_argument(
-        "-p", "--project-dir", dest="project_dir", help="Specify root directory of a project for analysis"
+        "--debug", dest="debug", default=False, action="store_true", help="Set console log level to DEBUG."
     )
     parse.add_argument(
-        "-o", "--output-dir", dest="output_dir", help="Specify root directory to store various result files"
+        "-p", "--project-dir", dest="project_dir", help="Specify root directory of a project for analysis."
     )
     parse.add_argument(
-        "-s", "--socket", dest="socket", help="Provide [Protocol]Host[:Port] of a service for analysis"
+        "-o", "--output-dir", dest="output_dir", help="Specify root directory to store various result files."
+    )
+    parse.add_argument(
+        "-s", "--socket", dest="socket", help="Provide [Protocol]Host[:Port] of a service for analysis."
     )
     return parse.parse_args(args)
 
@@ -115,6 +120,8 @@ def main():
     """
     # command line arg parsing
     args = parse_args(sys.argv[1:])
+    if args.debug:
+        shellLogHandler.setLevel(logging.DEBUG)
     if args.project_dir:
         mate_config.project_dir = args.project_dir
     if args.output_dir:
@@ -147,6 +154,8 @@ def main():
         'calc',
         'show',
     ])
+
+    log.debug("Starting shell.")
 
     try:
         while True:
