@@ -1,4 +1,14 @@
 .vscode/
+
+# python builds
 __pycache__/
 *.egg-info/
+
+# Ah well..
 .gdb_history
+
+# documentation builds
+docs/build/
+
+# ;)
+flag.txt
