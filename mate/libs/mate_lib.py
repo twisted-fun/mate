@@ -1,10 +1,10 @@
-import sys
 from mate.modules import hookimpl
 from mate.modules.internal.mate_calc import MateCalc
 from mate.modules.internal.mate_find import MateFind
 from mate.modules.internal.mate_help import MateHelp
 from mate.modules.internal.mate_show import MateShow
 from mate.modules.internal.mate_plugins import MateShowPlugins
+
 
 @hookimpl
 def mate_add_modules():
@@ -27,4 +27,3 @@ def mate_add_modules():
     # Adding calc
     modules.append(MateCalc("calc"))
     return modules
-

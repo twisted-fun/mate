@@ -4,10 +4,10 @@ from colorama import Fore, Back
 
 def yellow_background(s: str) -> str:  # pragma: no cover
     """Yellow color string if tty
-    
+
     Args:
         s (str): String to color
-    
+
     Returns:
         str: Colored string
     """
@@ -19,10 +19,10 @@ def yellow_background(s: str) -> str:  # pragma: no cover
 
 def red(s: str) -> str:  # pragma: no cover
     """Red color string if tty
-    
+
     Args:
         s (str): String to color
-    
+
     Returns:
         str: Colored string
     """
@@ -34,10 +34,10 @@ def red(s: str) -> str:  # pragma: no cover
 
 def blue(s: str) -> str:  # pragma: no cover
     """Blue color string if tty
-    
+
     Args:
         s (str): String to color
-    
+
     Returns:
         str: Colored string
     """
@@ -49,10 +49,10 @@ def blue(s: str) -> str:  # pragma: no cover
 
 def cyan(s: str) -> str:  # pragma: no cover
     """Cyan color string if tty
-    
+
     Args:
         s (str): String to color
-    
+
     Returns:
         str: Colored string
     """
@@ -64,10 +64,10 @@ def cyan(s: str) -> str:  # pragma: no cover
 
 def green(s: str) -> str:  # pragma: no cover
     """Green color string if tty
-    
+
     Args:
         s (str): String to color
-    
+
     Returns:
         str: Colored string
     """
@@ -79,10 +79,10 @@ def green(s: str) -> str:  # pragma: no cover
 
 def yellow(s: str) -> str:  # pragma: no cover
     """Yellow color string if tty
-    
+
     Args:
         s (str): String to color
-    
+
     Returns:
         str: Colored string
     """
@@ -94,10 +94,10 @@ def yellow(s: str) -> str:  # pragma: no cover
 
 def magenta(s: str) -> str:  # pragma: no cover
     """Magenta color string if tty
-    
+
     Args:
         s (str): String to color
-    
+
     Returns:
         str: Colored string
     """

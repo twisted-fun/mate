@@ -1,8 +1,7 @@
-import sys
 from mate.modules.core import MateModule
-from mate.utils.colors import red, yellow, cyan, magenta, green
-from mate.utils.exceptions import mate_exception_handler, MateUndefined
+from mate.utils.colors import magenta
 from mate.config import mate_config
+
 
 def show_context():
     """Shows current running context.
@@ -12,6 +11,7 @@ def show_context():
     print(magenta("Output Directory: ") + str(mate_config.output_dir))
     print()
 
+
 def show_mate():
     """Shows mate's details.
     """
@@ -19,6 +19,7 @@ def show_mate():
     print(magenta("Version: ") + str(mate_config.mate_version))
     print(magenta("Author: ") + str(mate_config.mate_author))
     print()
+
 
 def show_all():
     """Shows everything.
@@ -30,10 +31,12 @@ def show_all():
     print(magenta("Output Directory: ") + str(mate_config.output_dir))
     print()
 
+
 def show_default():
     """Generic command for showing things about mate.
     """
     print("Executing Show.")
+
 
 class MateShow(MateModule):
 

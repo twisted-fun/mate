@@ -1,7 +1,6 @@
-import sys
-import os
 from pathlib import Path
 from mate.__version__ import __author__, __version__
+
 
 class MateConfig(object):
     """Central config class for mate.
@@ -21,20 +20,24 @@ class MateConfig(object):
         self.project_dir = Path.cwd()
         self.output_dir = Path(self.mate_dir / "output")
         self.socket = None
-        
+
         if not self.mate_dir.exists():
             self.mate_dir.mkdir(exist_ok=True)
             self.output_dir.mkdir(exist_ok=True)
             Path(self.mate_conf).touch()
             Path(self.mate_hist).touch()
-        
+
         # initialize command hierarchy
         self.prompt_status = "+"
         self.command = {}
         self.module_record = None
-        
+
+
 def config_init():
     """Initialize global config to be used through out mate.
     """
     global mate_config
     mate_config = MateConfig()
+
+
+config_init()

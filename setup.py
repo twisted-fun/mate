@@ -1,14 +1,12 @@
 # pylint: disable=undefined-variable
-import sys
 from setuptools import setup, find_packages
+from mate.__version__ import __author__, __version__
 
-# Get version and author information
-with open("mate/__version__.py", "r") as f:
-    exec(f.read())
 
 def read_requirements():
     with open("requirements.txt") as f:
         return f.read().splitlines()
+
 
 requirements = read_requirements()
 

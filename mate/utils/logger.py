@@ -1,4 +1,3 @@
-import sys
 import logging
 from rich.logging import RichHandler
 from rich.console import Console
@@ -12,7 +11,11 @@ install()
 # handler for logging in stdout and file
 shellLogHandler = RichHandler()
 log_file = open("/tmp/mate_debug.log", "a")
-fileLogHandler = RichHandler(console=Console(file=log_file), rich_tracebacks=True, tracebacks_show_locals=True)
+fileLogHandler = RichHandler(
+    console=Console(file=log_file),
+    rich_tracebacks=True,
+    tracebacks_show_locals=True
+)
 
 log.setLevel(logging.DEBUG)
 shellLogHandler.setLevel(logging.INFO)

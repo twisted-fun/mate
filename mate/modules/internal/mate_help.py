@@ -1,10 +1,9 @@
-import sys
-import shlex
 from docstring_parser import parse
 from mate.modules.core import MateModule
 from mate.utils.colors import magenta
-from mate.utils.exceptions import mate_exception_handler, MateUndefined
+from mate.utils.exceptions import MateUndefined
 from mate.config import mate_config
+
 
 def help_default(*args):
     """Print list of commands.
@@ -14,7 +13,9 @@ def help_default(*args):
     else:
         module = mate_config.module_record.get_module_by_path(args)
         # check if it's in default inline submodules
-        if module is None and args[0] in mate_config.module_record.INLINE_SUBMODULES:
+        if (
+            module is None and args[0] in mate_config.module_record.INLINE_SUBMODULES
+        ):
             module = mate_config.module_record
         if module is None:
             raise MateUndefined
@@ -36,9 +37,9 @@ def help_default(*args):
         print(magenta(cmd_path) + " -- " + desc)
     print()
 
+
 class MateHelp(MateModule):
 
     INLINE_SUBMODULES = {
         "": help_default,
     }
-    
