@@ -3,7 +3,7 @@ Fixes:
     ☐ Fix help module. For example "help show all" doesn't show only that.
 
 Tests:
-    ☐ Create a test suite.
+    ✔ Write initial basic test cases. @done(20-11-25 22:26)
 
 Plugins:
     Find Security Issues:
@@ -40,7 +40,9 @@ Code:
         ☐ Add support for printing detailed usage
         ✔ Parse help's description and usage details from docstring instead of current bs @done(20-11-24 03:32)
     ✔ Add docstring to each and everything @done(20-11-24 15:23)
+    ☐ Enforce type hints at runtime using pydantic.
     ✔ Add inline submodule support @done(20-11-24 01:51)
+    ☐ Create a decorator for easy addition of inline submodules
     ☐ Don't catch all TypeError exceptions from execute(). Change it to something more robust.
     ☐ Forbid print statement in module's execution, instead make a powerful central print that executes whatever module returns.
     ✔ Remove "mate" root node in module's path, it's side effects make code hard to read. @done(20-11-23 19:02)

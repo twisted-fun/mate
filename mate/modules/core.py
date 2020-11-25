@@ -156,7 +156,10 @@ class MateModule:
         log.debug(
             f"(self={self.__repr__()}, " +
             f"inline_submodule_name={inline_submodule_name.__repr__()}, " +
-            f"args={args.__repr__()})"
+            f"args={args.__repr__()})" +
+            "\n" +
+            f"<{self.INLINE_SUBMODULES[inline_submodule_name].__name__}> " +
+            f"{args.__repr__()}"
         )
         self.INLINE_SUBMODULES[inline_submodule_name](*args)
 
@@ -166,7 +169,7 @@ def ls_default(*args):
     ls_args = " ".join(args)
     print(subprocess.getoutput("ls " + ls_args + " --color"))
 
-def pwd_default(*args):
+def pwd_default():
     """Prints current working directory.
     """
     print(magenta("Working directory: ") + str(pathlib.Path.cwd()))
@@ -252,8 +255,7 @@ class MateRecord(MateModule):
                     return module_to_exec.execute(inline_submodule_name, *params)
             
             if cmd_tokens[0] in self.INLINE_SUBMODULES:
-                self.INLINE_SUBMODULES[cmd_tokens[0]](*cmd_tokens[1:])
-                return True
+                return self.execute(cmd_tokens[0], *cmd_tokens[1:])
             invalid_command = cmd_tokens[0]
             print(red("Undefined command: \"{}\". Try \"help\".".format(invalid_command)))
             return False

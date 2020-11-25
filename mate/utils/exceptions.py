@@ -18,9 +18,11 @@ def mate_exception_handler(func):
             if retval is not False:
                 return True
         except TypeError:
-            original_command = " ".join(self.get_path())
+            original_command = " ".join(self.get_path()).strip()
+            original_command += " " if original_command != "" else original_command
             extra_command = args[0]
-            print(red("Undefined {} command: \"{}\". Try \"help {}\".".format(original_command, extra_command, original_command)))
+            help_statement = " ".join(["help", original_command]).strip()
+            print(red(f"Undefined {original_command}command: \"{extra_command}\". Try \"{help_statement}\"."))
             return False
     return tmp_func
 

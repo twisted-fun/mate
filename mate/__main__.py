@@ -167,7 +167,8 @@ def main():
             )
             command = prompt.strip()
             # passing cmd string tokens for parsing
-            command_status = record.parse_command(shlex.split(command))
+            cmd_tokens = shlex.split(command)
+            command_status = record.parse_command(cmd_tokens) if len(cmd_tokens) > 0 else True
             if command_status:
                 set_prompt_status("+")
             else:
