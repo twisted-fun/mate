@@ -1,3 +1,5 @@
+![](https://github.com/twisted-fun/mate/workflows/build%20tests/badge.svg)
+
 # mate
 A swiss army butler for your hacking needs.
 
