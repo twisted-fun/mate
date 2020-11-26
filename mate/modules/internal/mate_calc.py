@@ -2,8 +2,7 @@ from mate.modules.core import MateModule
 
 
 def calc_default():
-    """Powerful calculator inspired by IDA Pro calculator.
-    """
+    """Powerful calculator inspired by IDA Pro calculator."""
     print("Executing Calc.")
 
 

@@ -4,8 +4,7 @@ from mate.config import mate_config
 
 
 def show_context():
-    """Shows current running context.
-    """
+    """Shows current running context."""
     print()
     print(magenta("Project Directory: ") + str(mate_config.project_dir))
     print(magenta("Output Directory: ") + str(mate_config.output_dir))
@@ -13,8 +12,7 @@ def show_context():
 
 
 def show_mate():
-    """Shows mate's details.
-    """
+    """Shows mate's details."""
     print()
     print(magenta("Version: ") + str(mate_config.mate_version))
     print(magenta("Author: ") + str(mate_config.mate_author))
@@ -22,8 +20,7 @@ def show_mate():
 
 
 def show_all():
-    """Shows everything.
-    """
+    """Shows everything."""
     print()
     print(magenta("Version: ") + str(mate_config.mate_version))
     print(magenta("Author: ") + str(mate_config.mate_author))
@@ -33,8 +30,7 @@ def show_all():
 
 
 def show_default():
-    """Generic command for showing things about mate.
-    """
+    """Generic command for showing things about mate."""
     print("Executing Show.")
 
 

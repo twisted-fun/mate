@@ -18,7 +18,7 @@ setup(
     url="https://github.com/twisted-fun/mate",
     project_url={
         "Source Code": "https://github.com/twisted-fun/mate",
-        "Documentation": "https://github.com/twisted-fun/mate/README.md"
+        "Documentation": "https://github.com/twisted-fun/mate/README.md",
     },
     packages=find_packages(),
     install_requires=requirements,

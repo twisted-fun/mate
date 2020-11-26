@@ -12,6 +12,7 @@ def mate_exception_handler(func):
         function: Argument function will be wrapped in a try/except and
         returned.
     """
+
     @functools.wraps(func)
     def tmp_func(self, inline_submodule_name, *args):
         try:
@@ -20,18 +21,17 @@ def mate_exception_handler(func):
                 return True
         except TypeError:
             original_command = " ".join(self.get_path()).strip()
-            original_command += (
-                " "
-                if original_command != ""
-                else original_command
-            )
+            original_command += " " if original_command != "" else original_command
             extra_command = args[0]
             help_statement = " ".join(["help", original_command]).strip()
-            print(red(
-                f'Undefined {original_command}command: "{extra_command}". '
-                f'Try "{help_statement}".'
-            ))
+            print(
+                red(
+                    f'Undefined {original_command}command: "{extra_command}". '
+                    f'Try "{help_statement}".'
+                )
+            )
             return False
+
     return tmp_func
 
 
@@ -41,4 +41,5 @@ class MateUndefined(TypeError):
     Args:
         TypeError ([type]): [description]
     """
+
     pass

@@ -41,8 +41,7 @@ def load_plugins():
 
 
 def print_banner():
-    """Prints mate's banner i.e. version info.
-    """
+    """Prints mate's banner i.e. version info."""
     print(green("mate " + __version__))
     print('For help, type "help".')
 
@@ -57,15 +56,17 @@ def prompt_style():
         status_color = "#00aa00"
     elif mate_config.prompt_status == "-":
         status_color = "#aa0000"
-    style = Style.from_dict({
-        # User input (default text).
-        '': '#ffffff',
-        # Prompt.
-        'execname': 'ansicyan',
-        'bracket': '#ffffff',
-        'status': status_color,
-        'arrow': 'ansicyan',
-    })
+    style = Style.from_dict(
+        {
+            # User input (default text).
+            "": "#ffffff",
+            # Prompt.
+            "execname": "ansicyan",
+            "bracket": "#ffffff",
+            "status": status_color,
+            "arrow": "ansicyan",
+        }
+    )
     return style
 
 
@@ -76,11 +77,11 @@ def prompt_message():
         message: Message object is parsed by prompt toolkit to create prompt.
     """
     message = [
-        ('class:execname', 'mate'),
-        ('class:bracket', ' ['),
-        ('class:status', mate_config.prompt_status),
-        ('class:bracket', '] '),
-        ('class:arrow', '> '),
+        ("class:execname", "mate"),
+        ("class:bracket", " ["),
+        ("class:status", mate_config.prompt_status),
+        ("class:bracket", "] "),
+        ("class:arrow", "> "),
     ]
 
     return message
@@ -110,27 +111,35 @@ def parse_args(args):
         "-V", "--version", action="version", version="%(prog)s " + __version__
     )
     parse.add_argument(
-        "--debug", dest="debug", default=False, action="store_true",
-        help="Set console log level to DEBUG."
+        "--debug",
+        dest="debug",
+        default=False,
+        action="store_true",
+        help="Set console log level to DEBUG.",
     )
     parse.add_argument(
-        "-p", "--project-dir", dest="project_dir",
-        help="Specify root directory of a project for analysis."
+        "-p",
+        "--project-dir",
+        dest="project_dir",
+        help="Specify root directory of a project for analysis.",
     )
     parse.add_argument(
-        "-o", "--output-dir", dest="output_dir",
-        help="Specify root directory to store various result files."
+        "-o",
+        "--output-dir",
+        dest="output_dir",
+        help="Specify root directory to store various result files.",
     )
     parse.add_argument(
-        "-s", "--socket", dest="socket",
-        help="Provide [Protocol]Host[:Port] of a service for analysis."
+        "-s",
+        "--socket",
+        dest="socket",
+        help="Provide [Protocol]Host[:Port] of a service for analysis.",
     )
     return parse.parse_args(args)
 
 
 def main():
-    """I do the actual work.
-    """
+    """I do the actual work."""
     # command line arg parsing
     args = parse_args(sys.argv[1:])
     if args.debug:
@@ -164,7 +173,7 @@ def main():
                 prompt_message(),
                 style=prompt_style(),
                 completer=None,
-                complete_while_typing=True
+                complete_while_typing=True,
             )
             command = prompt.strip()
             # passing cmd string tokens for parsing

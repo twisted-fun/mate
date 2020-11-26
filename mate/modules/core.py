@@ -142,11 +142,11 @@ class MateModule:
         else:
             ret_path = self.parent.get_path()
         self_path = self.get_path()
-        if self_path == path[:len(self_path)]:
+        if self_path == path[: len(self_path)]:
             ret_path = self_path
         for module in self.get_modules():
             module_path = module.get_path()
-            if module_path == path[:len(module_path)]:
+            if module_path == path[: len(module_path)]:
                 ret_path = module.match_path(path)
                 break
         return ret_path
@@ -171,28 +171,24 @@ class MateModule:
 
 
 def ls_default(*args):
-    """Satisfies your command line itch.
-    """
+    """Satisfies your command line itch."""
     ls_args = " ".join(args)
     print(subprocess.getoutput("ls " + ls_args + " --color"))
 
 
 def pwd_default():
-    """Prints current working directory.
-    """
+    """Prints current working directory."""
     print(magenta("Working directory: ") + str(pathlib.Path.cwd()))
 
 
 def sh_default(*args):
-    """Interface to shell.
-    """
+    """Interface to shell."""
     sh_args = " ".join(args)
     print(subprocess.getoutput(sh_args))
 
 
 class MateRecord(MateModule):
-    """Keep track of all modules in mate.
-    """
+    """Keep track of all modules in mate."""
 
     # Mate's default inline submodules.
     INLINE_SUBMODULES = {
@@ -213,8 +209,7 @@ class MateRecord(MateModule):
         super().__init__(module_name)
 
     def add_modules(self):
-        """Loads all modules and plugins dynamically from hook.
-        """
+        """Loads all modules and plugins dynamically from hook."""
         results = self.hook.mate_add_modules()
         all_modules = list(itertools.chain(*results))
         for module in all_modules:
@@ -248,9 +243,7 @@ class MateRecord(MateModule):
             cmd_tokens (list): Tokenized command string.
         """
 
-        log.debug(
-            f"(self={self.__repr__()}, cmd_tokens={cmd_tokens.__repr__()})"
-        )
+        log.debug(f"(self={self.__repr__()}, cmd_tokens={cmd_tokens.__repr__()})")
 
         if len(cmd_tokens) == 0:
             return True
@@ -260,17 +253,14 @@ class MateRecord(MateModule):
                 if path != []:
                     module_to_exec = self.get_module_by_path(path)
                     inline_submodule_name = "".join(
-                        cmd_tokens[len(path):len(path) + 1]
+                        cmd_tokens[len(path) : len(path) + 1]
                     )
                     if inline_submodule_name not in module_to_exec.INLINE_SUBMODULES:
                         inline_submodule_name = ""
-                        params = tuple(cmd_tokens[len(path):])
+                        params = tuple(cmd_tokens[len(path) :])
                     else:
-                        params = tuple(cmd_tokens[len(path) + 1:])
-                    return module_to_exec.execute(
-                        inline_submodule_name,
-                        *params
-                    )
+                        params = tuple(cmd_tokens[len(path) + 1 :])
+                    return module_to_exec.execute(inline_submodule_name, *params)
 
             if cmd_tokens[0] in self.INLINE_SUBMODULES:
                 return self.execute(cmd_tokens[0], *cmd_tokens[1:])

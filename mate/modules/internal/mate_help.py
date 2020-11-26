@@ -6,16 +6,13 @@ from mate.config import mate_config
 
 
 def help_default(*args):
-    """Print list of commands.
-    """
+    """Print list of commands."""
     if len(args) == 0:
         module = mate_config.module_record
     else:
         module = mate_config.module_record.get_module_by_path(args)
         # check if it's in default inline submodules
-        if (
-            module is None and args[0] in mate_config.module_record.INLINE_SUBMODULES
-        ):
+        if module is None and args[0] in mate_config.module_record.INLINE_SUBMODULES:
             module = mate_config.module_record
         if module is None:
             raise MateUndefined

@@ -3,16 +3,14 @@ from mate.__version__ import __author__, __version__
 
 
 class MateConfig(object):
-    """Central config class for mate.
-    """
+    """Central config class for mate."""
+
     def __init__(self):
         home = Path.home()
         self.mate_version = __version__
         self.mate_author = __author__
         self.mate_dir = (
-            Path(".mate").resolve()
-            if Path(".mate").exists()
-            else Path(home / ".mate")
+            Path(".mate").resolve() if Path(".mate").exists() else Path(home / ".mate")
         )
         self.mate_conf = Path(self.mate_dir / ".mate.conf")
         self.mate_hist = Path(self.mate_dir / ".mate_history")
@@ -34,8 +32,7 @@ class MateConfig(object):
 
 
 def config_init():
-    """Initialize global config to be used through out mate.
-    """
+    """Initialize global config to be used through out mate."""
     global mate_config
     mate_config = MateConfig()
 

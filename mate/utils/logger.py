@@ -12,9 +12,7 @@ install()
 shellLogHandler = RichHandler()
 log_file = open("/tmp/mate_debug.log", "a")
 fileLogHandler = RichHandler(
-    console=Console(file=log_file),
-    rich_tracebacks=True,
-    tracebacks_show_locals=True
+    console=Console(file=log_file), rich_tracebacks=True, tracebacks_show_locals=True
 )
 
 log.setLevel(logging.DEBUG)
@@ -22,7 +20,7 @@ shellLogHandler.setLevel(logging.INFO)
 fileLogHandler.setLevel(logging.DEBUG)
 
 # the formatter determines what our logs will look like
-fmt_shell = '<%(funcName)s> %(message)s'
+fmt_shell = "<%(funcName)s> %(message)s"
 fmt_file = fmt_shell
 
 shell_formatter = logging.Formatter(fmt_shell)

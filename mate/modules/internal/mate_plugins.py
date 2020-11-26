@@ -2,8 +2,7 @@ from mate.modules.core import MateModule
 
 
 def show_plugins():
-    """List loaded plugins.
-    """
+    """List loaded plugins."""
     print("Executing Show Plugins.")
 
 
