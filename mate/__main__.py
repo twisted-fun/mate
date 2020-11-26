@@ -9,7 +9,6 @@ from mate.config import mate_config
 from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.styles import Style
-from prompt_toolkit.completion import WordCompleter
 
 from mate.libs import mate_lib, mate_hookspecs
 from mate.utils.logger import log, shellLogHandler
@@ -29,6 +28,16 @@ def get_plugin_manager():
     pm.load_setuptools_entrypoints("mate")
     pm.register(mate_lib)
     return pm
+
+
+def load_plugins():
+    # initializing plugin manager and mate modules
+    print("Loading modules... ", end="")
+    pm = get_plugin_manager()
+    record = MateRecord("mate", pm.hook)
+    record.add_modules()
+    mate_config.module_record = record
+    print("Done.")
 
 
 def print_banner():
@@ -136,13 +145,8 @@ def main():
     # a nice banner
     print_banner()
 
-    # initializing plugin manager and mate modules
-    print("Loading modules... ", end="")
-    pm = get_plugin_manager()
-    record = MateRecord("mate", pm.hook)
-    record.add_modules()
-    mate_config.module_record = record
-    print("Done.")
+    # load plugins
+    load_plugins()
 
     # setting up interpreter prompt
     history_file = mate_config.mate_hist
@@ -152,13 +156,6 @@ def main():
         wrap_lines=True,
     )
 
-    auto_completer = WordCompleter([
-        'help',
-        'find',
-        'calc',
-        'show',
-    ])
-
     log.debug("- Starting shell.")
 
     try:
@@ -166,7 +163,7 @@ def main():
             prompt = session.prompt(
                 prompt_message(),
                 style=prompt_style(),
-                completer=auto_completer,
+                completer=None,
                 complete_while_typing=True
             )
             command = prompt.strip()
@@ -174,7 +171,7 @@ def main():
             cmd_tokens = shlex.split(command)
             command_status = True
             if len(cmd_tokens) > 0:
-                command_status = record.parse_command(cmd_tokens)
+                command_status = mate_config.module_record.parse_command(cmd_tokens)
             if command_status:
                 set_prompt_status("+")
             else:
