@@ -7,7 +7,7 @@ from mate.__version__ import __author__, __version__
 def test_show_inline_submodule_mate_with_no_arguments_should_print_mate_version_and_author(
     capfd,
 ):
-    mate_show.show_mate()
+    mate_config.module_record.parse_command(["show", "mate"])
     out, err = capfd.readouterr()
     assert out == "\nVersion: " + __version__ + "\n" + "Author: " + __author__ + "\n\n"
 

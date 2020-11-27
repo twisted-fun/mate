@@ -1,6 +1,7 @@
 import pathlib
 import subprocess
 import itertools
+import functools
 
 from mate.utils.colors import red, magenta
 from mate.utils.logger import log
@@ -16,12 +17,6 @@ class MateModule:
         that is easily pluggable into mate.
     """
 
-    # Dictionary to keep track of inline submodules of a MateModule.
-    INLINE_SUBMODULES = {
-        # "": node_function # for default action on module
-        # "node_name": node_function,
-    }
-
     def __init__(self, module_name):
         """Initializes MateModule object.
 
@@ -31,6 +26,17 @@ class MateModule:
         self.submodules = []
         self.module_name = module_name
         self.parent = None
+        # Dictionary to keep track of inline submodules of a MateModule.
+        self.INLINE_SUBMODULES = {
+            # "": node_function # for default action on module
+            # "node_name": node_function,
+        }
+
+        # add methods with __commandOption into INLINE_SUBMODULE
+        for attr_name in dir(self):
+            attr_obj = getattr(self, attr_name)
+            if callable(attr_obj) and hasattr(attr_obj, "__commandOption"):
+                self.INLINE_SUBMODULES[getattr(attr_obj, "__commandOption")] = attr_obj
 
     def get_name(self):
         """Get module name.
@@ -190,13 +196,6 @@ def sh_default(*args):
 class MateRecord(MateModule):
     """Keep track of all modules in mate."""
 
-    # Mate's default inline submodules.
-    INLINE_SUBMODULES = {
-        "ls": ls_default,
-        "pwd": pwd_default,
-        "sh": sh_default,
-    }
-
     def __init__(self, module_name, hook):
         """Initializes ModuleRecord and adds a hook for plugin registrations.
 
@@ -207,6 +206,12 @@ class MateRecord(MateModule):
         self.hook = hook
         # invoke MateModule's init
         super().__init__(module_name)
+        # Mate's default inline submodules.
+        self.INLINE_SUBMODULES = {
+            "ls": ls_default,
+            "pwd": pwd_default,
+            "sh": sh_default,
+        }
 
     def add_modules(self):
         """Loads all modules and plugins dynamically from hook."""
@@ -267,3 +272,22 @@ class MateRecord(MateModule):
             invalid_command = cmd_tokens[0]
             print(red(f'Undefined command: "{invalid_command}". Try "help".'))
             return False
+
+
+def command(option=""):
+    """Decorator to assign functions to INLINE_SUBMODULE.
+    This is achieved by setting an attribute to decorated function.
+    The attribute is then checked at MateModule class's init and added
+    to INLINE_SUBMODULE of that class.
+    """
+
+    def inner(func):
+        func.__commandOption = option
+
+        @functools.wraps(func)
+        def wrapper(self, *args):
+            return func(self, *args)
+
+        return wrapper
+
+    return inner

@@ -1,44 +1,36 @@
-from mate.modules.core import MateModule
+from mate.modules.core import MateModule, command
 from mate.utils.colors import magenta
 from mate.config import mate_config
 
 
-def show_context():
-    """Shows current running context."""
-    print()
-    print(magenta("Project Directory: ") + str(mate_config.project_dir))
-    print(magenta("Output Directory: ") + str(mate_config.output_dir))
-    print()
-
-
-def show_mate():
-    """Shows mate's details."""
-    print()
-    print(magenta("Version: ") + str(mate_config.mate_version))
-    print(magenta("Author: ") + str(mate_config.mate_author))
-    print()
-
-
-def show_all():
-    """Shows everything."""
-    print()
-    print(magenta("Version: ") + str(mate_config.mate_version))
-    print(magenta("Author: ") + str(mate_config.mate_author))
-    print(magenta("Project Directory: ") + str(mate_config.project_dir))
-    print(magenta("Output Directory: ") + str(mate_config.output_dir))
-    print()
-
-
-def show_default():
-    """Generic command for showing things about mate."""
-    print("Executing Show.")
-
-
 class MateShow(MateModule):
+    @command()
+    def show_default(self):
+        """Generic command for showing things about mate."""
+        print("Executing Show.")
 
-    INLINE_SUBMODULES = {
-        "": show_default,
-        "all": show_all,
-        "mate": show_mate,
-        "context": show_context,
-    }
+    @command(option="all")
+    def show_all(self):
+        """Shows everything."""
+        print()
+        print(magenta("Version: ") + str(mate_config.mate_version))
+        print(magenta("Author: ") + str(mate_config.mate_author))
+        print(magenta("Project Directory: ") + str(mate_config.project_dir))
+        print(magenta("Output Directory: ") + str(mate_config.output_dir))
+        print()
+
+    @command(option="mate")
+    def show_mate(self):
+        """Shows mate's details."""
+        print()
+        print(magenta("Version: ") + str(mate_config.mate_version))
+        print(magenta("Author: ") + str(mate_config.mate_author))
+        print()
+
+    @command(option="context")
+    def show_context(self):
+        """Shows current running context."""
+        print()
+        print(magenta("Project Directory: ") + str(mate_config.project_dir))
+        print(magenta("Output Directory: ") + str(mate_config.output_dir))
+        print()

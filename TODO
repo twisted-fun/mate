@@ -42,7 +42,7 @@ Code:
     ✔ Add docstring to each and everything @done(20-11-24 15:23)
     ☐ Enforce type hints at runtime using pydantic.
     ✔ Add inline submodule support @done(20-11-24 01:51)
-    ☐ Create a decorator for easy addition of inline submodules
+    ✔ Create a decorator for easy addition of inline submodules @done(20-11-27 19:26)
     ☐ Don't catch all TypeError exceptions from execute(). Change it to something more robust.
     ☐ Forbid print statement in module's execution, instead make a powerful central print that executes whatever module returns.
     ✔ Remove "mate" root node in module's path, it's side effects make code hard to read. @done(20-11-23 19:02)

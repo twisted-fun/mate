@@ -1,13 +1,8 @@
-from mate.modules.core import MateModule
-
-
-def find_default():
-    """Generic command to find various artifacts."""
-    print("Executing Find.")
+from mate.modules.core import MateModule, command
 
 
 class MateFind(MateModule):
-
-    INLINE_SUBMODULES = {
-        "": find_default,
-    }
+    @command()
+    def find_default(self):
+        """Generic command to find various artifacts."""
+        print("Executing Find.")

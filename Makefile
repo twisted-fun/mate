@@ -6,6 +6,7 @@ help:
 	@echo " - flake        : runs flake8 style checks"
 	@echo " - black        : format the code"
 	@echo " - check        : runs all checks (tests + style)"
+	@echo " - pre-commit   : runs pre-commit tests"
 	@echo " - clean        : cleans up all folders"
 	@echo ""
 
@@ -20,6 +21,9 @@ flake:
 
 test:
 	pytest
+
+pre-commit:
+	pre-commit run --all-files
 
 clean:
 	rm -rf __pycache__ .pytest_cache

@@ -24,16 +24,14 @@ def show_module_names():
 
 @pytest.fixture(scope="function")
 def cmd_names_in_help_with_no_args(capfd):
-    mate_help.help_default()
+    mate_config.module_record.parse_command(["help"])
     out, err = capfd.readouterr()
     return [line.split(" -- ")[0] for line in out.splitlines() if line != ""]
 
 
 @pytest.fixture(scope="function")
 def cmd_names_in_help_with_show(capfd):
-    mate_help.help_default(
-        "show",
-    )
+    mate_config.module_record.parse_command(["help", "show"])
     out, err = capfd.readouterr()
     return [line.split(" -- ")[0] for line in out.splitlines() if line != ""]
 

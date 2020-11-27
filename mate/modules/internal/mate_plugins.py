@@ -1,13 +1,8 @@
-from mate.modules.core import MateModule
-
-
-def show_plugins():
-    """List loaded plugins."""
-    print("Executing Show Plugins.")
+from mate.modules.core import MateModule, command
 
 
 class MateShowPlugins(MateModule):
-
-    INLINE_SUBMODULES = {
-        "": show_plugins,
-    }
+    @command()
+    def show_plugins(self):
+        """List loaded plugins."""
+        print("Executing Show Plugins.")
