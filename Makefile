@@ -20,7 +20,7 @@ flake:
 	flake8
 
 test:
-	pytest
+	pytest --cov=mate --cov-report term --cov-report xml:cov.xml
 
 pre-commit:
 	pre-commit run --all-files
@@ -28,4 +28,4 @@ pre-commit:
 clean:
 	rm -rf __pycache__ .pytest_cache
 
-check: black flake test clean
+check: black flake test

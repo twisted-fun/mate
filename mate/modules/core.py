@@ -3,9 +3,28 @@ import subprocess
 import itertools
 import functools
 
-from mate.utils.colors import red, magenta
+from mate.utils.colors import red, magenta, mate_print
 from mate.utils.logger import log
 from mate.utils.exceptions import mate_exception_handler
+
+
+def command(option=""):
+    """Decorator to assign functions to INLINE_SUBMODULE.
+    This is achieved by setting an attribute to decorated function.
+    The attribute is then checked at MateModule class's init and added
+    to INLINE_SUBMODULE of that class.
+    """
+
+    def inner(func):
+        func.__commandOption = option
+
+        @functools.wraps(func)
+        def wrapper(self, *args):
+            return func(self, *args)
+
+        return wrapper
+
+    return inner
 
 
 # TODO: Change classes internal function name to have _ in the beginning
@@ -27,10 +46,11 @@ class MateModule:
         self.module_name = module_name
         self.parent = None
         # Dictionary to keep track of inline submodules of a MateModule.
-        self.INLINE_SUBMODULES = {
-            # "": node_function # for default action on module
-            # "node_name": node_function,
-        }
+        if not hasattr(self, "INLINE_SUBMODULES"):
+            self.INLINE_SUBMODULES = {
+                # "": node_function # for default action on module
+                # "node_name": node_function,
+            }
 
         # add methods with __commandOption into INLINE_SUBMODULE
         for attr_name in dir(self):
@@ -173,24 +193,24 @@ class MateModule:
             f"<{self.INLINE_SUBMODULES[inline_submodule_name].__name__}> "
             f"{args.__repr__()}"
         )
-        self.INLINE_SUBMODULES[inline_submodule_name](*args)
+        return self.INLINE_SUBMODULES[inline_submodule_name](*args)
 
 
 def ls_default(*args):
     """Satisfies your command line itch."""
     ls_args = " ".join(args)
-    print(subprocess.getoutput("ls " + ls_args + " --color"))
+    return subprocess.getoutput("ls " + ls_args + " --color")
 
 
 def pwd_default():
     """Prints current working directory."""
-    print(magenta("Working directory: ") + str(pathlib.Path.cwd()))
+    return magenta("Working directory: ") + str(pathlib.Path.cwd())
 
 
 def sh_default(*args):
     """Interface to shell."""
     sh_args = " ".join(args)
-    print(subprocess.getoutput(sh_args))
+    return subprocess.getoutput(sh_args)
 
 
 class MateRecord(MateModule):
@@ -204,14 +224,14 @@ class MateRecord(MateModule):
             hook (_HookRelay): Hook that is used for plugin registration.
         """
         self.hook = hook
-        # invoke MateModule's init
-        super().__init__(module_name)
         # Mate's default inline submodules.
         self.INLINE_SUBMODULES = {
             "ls": ls_default,
             "pwd": pwd_default,
             "sh": sh_default,
         }
+        # invoke MateModule's init
+        super().__init__(module_name)
 
     def add_modules(self):
         """Loads all modules and plugins dynamically from hook."""
@@ -241,7 +261,16 @@ class MateRecord(MateModule):
             return None
         return tmp_module
 
-    def parse_command(self, cmd_tokens):
+    @command(option=">>>")
+    def embed_ipython(self, *args):
+        """Drops user into ipython shell with the result of command specified."""
+        import IPython
+
+        results = self.parse_command(list(args), shouldPrint=False)  # noqa: F841
+        print(magenta("Command output is stored in variable: ") + red("results"))
+        IPython.embed(colors="neutral")
+
+    def parse_command(self, cmd_tokens, shouldPrint=True):
         """Parse and execute command from command tokens provided.
 
         Args:
@@ -265,29 +294,18 @@ class MateRecord(MateModule):
                         params = tuple(cmd_tokens[len(path) :])
                     else:
                         params = tuple(cmd_tokens[len(path) + 1 :])
-                    return module_to_exec.execute(inline_submodule_name, *params)
+                    results = module_to_exec.execute(inline_submodule_name, *params)
+                    if shouldPrint and results:
+                        return mate_print(results)
+                    else:
+                        return results
 
             if cmd_tokens[0] in self.INLINE_SUBMODULES:
-                return self.execute(cmd_tokens[0], *cmd_tokens[1:])
+                results = self.execute(cmd_tokens[0], *cmd_tokens[1:])
+                if shouldPrint and results:
+                    return mate_print(results)
+                else:
+                    return results
             invalid_command = cmd_tokens[0]
             print(red(f'Undefined command: "{invalid_command}". Try "help".'))
             return False
-
-
-def command(option=""):
-    """Decorator to assign functions to INLINE_SUBMODULE.
-    This is achieved by setting an attribute to decorated function.
-    The attribute is then checked at MateModule class's init and added
-    to INLINE_SUBMODULE of that class.
-    """
-
-    def inner(func):
-        func.__commandOption = option
-
-        @functools.wraps(func)
-        def wrapper(self, *args):
-            return func(self, *args)
-
-        return wrapper
-
-    return inner

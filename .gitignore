@@ -5,6 +5,10 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 
+# test coverage
+.coverage
+cov.xml
+
 # Ah well..
 .gdb_history
 

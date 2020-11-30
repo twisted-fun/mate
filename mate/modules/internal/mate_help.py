@@ -24,17 +24,17 @@ class MateHelp(MateModule):
             else:
                 pass
         module_path = module.get_path()
-        print()
+        results = {}
         # print description of inline submodules
         for m in module.INLINE_SUBMODULES:
             doc = parse(module.INLINE_SUBMODULES[m].__doc__)
             desc = doc.short_description or "No description provided."
             cmd_path = " ".join(module_path + [m]).strip()
-            print(magenta(cmd_path) + " -- " + desc)
+            results[cmd_path] = "-- " + desc
         # print description of submodules
         for m in module.get_modules():
             doc = parse(m.INLINE_SUBMODULES[""].__doc__)
             desc = doc.short_description or "No description provided."
             cmd_path = " ".join(m.get_path()).strip()
-            print(magenta(cmd_path) + " -- " + desc)
-        print()
+            results[cmd_path] = "-- " + desc
+        return results

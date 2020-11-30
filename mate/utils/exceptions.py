@@ -16,9 +16,7 @@ def mate_exception_handler(func):
     @functools.wraps(func)
     def tmp_func(self, inline_submodule_name, *args):
         try:
-            retval = func(self, inline_submodule_name, *args)
-            if retval is not False:
-                return True
+            return func(self, inline_submodule_name, *args)
         except TypeError:
             original_command = " ".join(self.get_path()).strip()
             original_command += " " if original_command != "" else original_command

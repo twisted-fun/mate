@@ -5,4 +5,4 @@ class MateFind(MateModule):
     @command()
     def find_default(self):
         """Generic command to find various artifacts."""
-        print("Executing Find.")
+        return "Executing Find."

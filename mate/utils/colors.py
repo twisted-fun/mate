@@ -2,6 +2,22 @@ import sys
 from colorama import Fore, Back
 
 
+def mate_print(data):
+    if isinstance(data, dict):
+        print()
+        for key in data:
+            print(magenta(str(key)) + " " + str(data[key]))
+        print()
+    elif isinstance(data, str):
+        print(data)
+    elif isinstance(data, list):
+        print()
+        for ele in data:
+            print(magenta(str(ele)))
+        print()
+    return True
+
+
 def yellow_background(s: str) -> str:  # pragma: no cover
     """Yellow color string if tty
 
