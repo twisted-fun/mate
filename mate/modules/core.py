@@ -1,3 +1,4 @@
+import types
 import pathlib
 import subprocess
 import itertools
@@ -237,8 +238,23 @@ class MateRecord(MateModule):
         """Loads all modules and plugins dynamically from hook."""
         results = self.hook.mate_add_modules()
         all_modules = list(itertools.chain(*results))
-        for module in all_modules:
-            self.add_submodule(module)
+        for i in range(1, 50):
+            if all_modules == []:
+                break
+            for module in all_modules[:]:
+                all_modules.remove(module)
+                parent = getattr(module, "__parent") or ""
+                if parent == "":
+                    parent_module = self
+                elif len(parent.split(".")) == i:
+                    parent_module = self.get_module_by_path(parent.split("."))
+                if isinstance(module, types.FunctionType):
+                    # setattr(parent_module, module.__name__, module.__get__(parent_module))
+                    parent_module.INLINE_SUBMODULES[
+                        getattr(module, "__commandOption")
+                    ] = module.__get__(parent_module)
+                elif isinstance(module, MateModule):
+                    parent_module.add_submodule(module)
 
     # TODO: Fix get_module_by_path function. Currently it matches with
     # module_name, not with module's path
