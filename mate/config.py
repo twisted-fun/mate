@@ -29,6 +29,7 @@ class MateConfig(object):
         self.prompt_status = "+"
         self.command = {}
         self.module_record = None
+        self.plugin_manager = None
 
 
 def config_init():

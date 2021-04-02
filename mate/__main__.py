@@ -42,6 +42,7 @@ def load_plugins():
     record = MateRecord("mate", pm.hook)
     record.add_modules()
     mate_config.module_record = record
+    mate_config.plugin_manager = pm
     print("Done.")
 
 
