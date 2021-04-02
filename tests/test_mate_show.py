@@ -20,10 +20,10 @@ def test_show_inline_submodule_mate_with_invalid_argument_should_print_error_in_
     assert out == 'Undefined show command: "YOYO". Try "help show".\n'
 
 
-def test_show_submodule_plugins_with_no_arguments_should_print_dummy_message(capfd):
-    mate_config.module_record.parse_command(["show", "plugins"])
-    out, err = capfd.readouterr()
-    assert out == "Executing Show Plugins.\n"
+# def test_show_submodule_plugins_with_no_arguments_should_print_dummy_message(capfd):
+#     mate_config.module_record.parse_command(["show", "plugins"])
+#     out, err = capfd.readouterr()
+#     assert out == "Executing Show Plugins.\n"
 
 
 def test_show_submodule_plugins_with_invalid_argument_should_print_error_in_correct_format(
