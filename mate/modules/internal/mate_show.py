@@ -1,4 +1,4 @@
-from mate.modules.core import MateModule, command
+from mate import MateModule, command, add_plugins
 from mate.utils.colors import magenta
 from mate.config import mate_config
 
@@ -34,3 +34,6 @@ class MateShow(MateModule):
         results["Project Directory:"] = str(mate_config.project_dir)
         results["Output Directory:"] = str(mate_config.output_dir)
         return results
+
+
+add_plugins(modules=[MateShow("show")])

@@ -269,6 +269,7 @@ class MateRecord(MateModule):
         results = self.parse_command(list(args), shouldPrint=False)  # noqa: F841
         print(magenta("Command output is stored in variable: ") + red("results"))
         IPython.embed(colors="neutral")
+        return True
 
     def parse_command(self, cmd_tokens, shouldPrint=True):
         """Parse and execute command from command tokens provided.

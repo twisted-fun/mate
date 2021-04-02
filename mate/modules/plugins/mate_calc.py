@@ -1,4 +1,4 @@
-from mate.modules.core import MateModule, command
+from mate import MateModule, command, add_plugins
 
 
 class MateCalc(MateModule):
@@ -6,3 +6,6 @@ class MateCalc(MateModule):
     def calc_default(self):
         """Powerful calculator inspired by IDA Pro calculator."""
         return "Executing Calc."
+
+
+add_plugins(modules=[MateCalc("calc")])

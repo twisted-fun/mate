@@ -3,6 +3,7 @@ from mate.modules.core import MateModule, command
 from mate.utils.colors import magenta
 from mate.utils.exceptions import MateUndefined
 from mate.config import mate_config
+from mate import add_plugins
 
 
 class MateHelp(MateModule):
@@ -38,3 +39,6 @@ class MateHelp(MateModule):
             cmd_path = " ".join(m.get_path()).strip()
             results[cmd_path] = "-- " + desc
         return results
+
+
+add_plugins([MateHelp("help")])

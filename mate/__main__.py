@@ -10,10 +10,12 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.styles import Style
 
-from mate.libs import mate_lib, mate_hookspecs
+from mate.libs import mate_hookspecs
 from mate.utils.logger import log, shellLogHandler
 from mate.utils.colors import red, yellow, green
 from mate.modules.core import MateRecord
+from mate.modules.internal import *
+from mate.modules.plugins import *
 from mate.__version__ import __version__
 
 
@@ -26,7 +28,10 @@ def get_plugin_manager():
     pm = pluggy.PluginManager("mate")
     pm.add_hookspecs(mate_hookspecs)
     pm.load_setuptools_entrypoints("mate")
-    pm.register(mate_lib)
+    for x in sys.modules:
+        if "mate.modules.internal." in x or "mate.modules.plugins." in x:
+            pm.register(sys.modules[x])
+    # pm.register(sys.modules[__name__])
     return pm
 
 

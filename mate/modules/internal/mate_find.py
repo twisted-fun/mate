@@ -1,4 +1,4 @@
-from mate.modules.core import MateModule, command
+from mate import MateModule, command, add_plugins
 
 
 class MateFind(MateModule):
@@ -6,3 +6,6 @@ class MateFind(MateModule):
     def find_default(self):
         """Generic command to find various artifacts."""
         return "Executing Find."
+
+
+add_plugins(modules=[MateFind("find")])
