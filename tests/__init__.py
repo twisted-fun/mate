@@ -1,6 +1,5 @@
-from mate.__main__ import get_plugin_manager
+from mate.__main__ import get_plugin_manager, mate_config
 from mate.modules.core import MateRecord
-from mate.config import mate_config
 
 pm = get_plugin_manager()
 record = MateRecord("mate", pm.hook)

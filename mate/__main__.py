@@ -26,7 +26,8 @@ def get_plugin_manager():
     """
     pm = pluggy.PluginManager("mate")
     pm.add_hookspecs(mate_hookspecs)
-    pm.load_setuptools_entrypoints("mate")
+    for group in mate_config.shells:
+        pm.load_setuptools_entrypoints(group)
     for x in sys.modules:
         if "mate.modules.internal." in x:
             pm.register(sys.modules[x])
@@ -36,13 +37,11 @@ def get_plugin_manager():
 
 def load_plugins():
     # initializing plugin manager and mate modules
-    print("Loading modules... ", end="")
     pm = get_plugin_manager()
     record = MateRecord("mate", pm.hook)
     record.add_modules()
     mate_config.module_record = record
     mate_config.plugin_manager = pm
-    print("Done.")
 
 
 def print_banner():
@@ -81,8 +80,15 @@ def prompt_message():
     Returns:
         message: Message object is parsed by prompt toolkit to create prompt.
     """
+    execname = "mate"
+    shells = mate_config.shells
+    if shells != ["mate"]:
+        if len(shells) == 1:
+            execname = shells[0] + " " + execname
+        else:
+            execname = "super" + " " + execname
     message = [
-        ("class:execname", "mate"),
+        ("class:execname", execname),
         ("class:bracket", " ["),
         ("class:status", mate_config.prompt_status),
         ("class:bracket", "] "),
@@ -140,6 +146,17 @@ def parse_args(args):
         dest="socket",
         help="Provide [Protocol]Host[:Port] of a service for analysis.",
     )
+    parse.add_argument(
+        "--shells",
+        dest="shells",
+        default="mate",
+        help="Specify setuptools group names separated by comma to fetch plugins instead of default 'mate'.",
+    )
+    parse.add_argument(
+        "--exec",
+        dest="exec",
+        help="Provide mate shell command for batch execution.",
+    )
     return parse.parse_args(args)
 
 
@@ -155,12 +172,23 @@ def main():
         mate_config.output_dir = args.output_dir
     if args.socket:
         mate_config.socket = args.socket
+    if args.shells:
+        mate_config.shells = args.shells.strip().strip(",").split(",")
 
-    # a nice banner
-    print_banner()
+    if not args.exec:
+        # a nice banner
+        print_banner()
+        print("Loading modules... ", end="")
 
     # load plugins
     load_plugins()
+
+    if not args.exec:
+        print("Done.")
+
+    if args.exec:
+        mate_config.module_record.parse_command(shlex.split(args.exec))
+        return
 
     # setting up interpreter prompt
     history_file = mate_config.mate_hist
