@@ -3,6 +3,7 @@ import shlex
 import pluggy
 import logging
 import argparse
+import sentry_sdk
 
 from mate.config import mate_config
 
@@ -30,6 +31,15 @@ def _(event):
         print(red("Try Ctrl-C maybe?"))
 
     run_in_terminal(take_it_easy)
+
+
+sentry_sdk.init(
+    "https://14832cd3088d43c699774d79cf9fa774@o481905.ingest.sentry.io/5704793",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+)
 
 
 def get_plugin_manager():
