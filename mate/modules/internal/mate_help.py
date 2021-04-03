@@ -1,7 +1,6 @@
 from docstring_parser import parse
 from mate.modules.core import MateModule, command
 from mate.utils.colors import magenta
-from mate.utils.exceptions import MateUndefined
 from mate.config import mate_config
 from mate import add_plugins
 
@@ -51,7 +50,8 @@ class MateHelp(MateModule):
             ):
                 return get_help(module, args[-1])
             else:
-                raise MateUndefined
+                # let modules handle its MateUndefined
+                return mate_config.module_record.parse_command(list(args))
 
         return get_help(module)
 
