@@ -2,6 +2,7 @@ Fixes:
     ☐ Fix ambiguty between module's default handler's argument and module's inline submodule handler's name
     ☐ Fix help module. For example "help show all" doesn't show only that.
     ☐ Allow multiple add_plugins in same python file
+    ☐ Fix ctrl-d handling in mate shell
 
 Tests:
     ✔ Write initial basic test cases. @done(20-11-25 22:26)

@@ -38,7 +38,7 @@ class MateHelp(MateModule):
             desc = doc.short_description or "No description provided."
             cmd_path = " ".join(m.get_path()).strip()
             results[cmd_path] = "-- " + desc
-        return results
+        return dict(sorted(results.items()))
 
 
 add_plugins([MateHelp("help")])

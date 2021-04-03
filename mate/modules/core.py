@@ -248,6 +248,8 @@ class MateRecord(MateModule):
                     parent_module = self
                 elif len(parent.split(".")) == i:
                     parent_module = self.get_module_by_path(parent.split("."))
+                    if not isinstance(parent_module, MateModule):
+                        continue
                 if isinstance(module, types.FunctionType):
                     # setattr(parent_module, module.__name__, module.__get__(parent_module))
                     parent_module.INLINE_SUBMODULES[

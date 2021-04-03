@@ -48,7 +48,7 @@ def test_help_default_with_no_arguments_should_print_all_base_commands(
     base_module_names, cmd_names_in_help_with_no_args
 ):
     # Asserting that all modules have been covered by help
-    assert base_module_names == cmd_names_in_help_with_no_args
+    assert sorted(base_module_names) == cmd_names_in_help_with_no_args
 
 
 def test_help_default_with_more_than_zero_arguments_should_print_only_self_and_all_submodules(
@@ -58,4 +58,4 @@ def test_help_default_with_more_than_zero_arguments_should_print_only_self_and_a
         "show " + module_name if module_name != "" else "show"
         for module_name in show_module_names
     ]
-    assert should_be_command_column == cmd_names_in_help_with_show
+    assert sorted(should_be_command_column) == cmd_names_in_help_with_show
