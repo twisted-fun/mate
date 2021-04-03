@@ -14,4 +14,4 @@ def test_base_module_pwd_with_invalid_argument_should_print_error_in_correct_for
 ):
     mate_config.module_record.parse_command(["pwd", "YOYO"])
     out, err = capfd.readouterr()
-    assert out == 'Undefined command: "YOYO". Try "help".\n'
+    assert out == 'Undefined pwd command: "YOYO". Try "help pwd".\n'

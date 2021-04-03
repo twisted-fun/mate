@@ -1,5 +1,6 @@
 import functools
 from mate.utils.colors import red
+from mate.config import mate_config
 
 
 def mate_exception_handler(func):
@@ -18,16 +19,30 @@ def mate_exception_handler(func):
         try:
             return func(self, inline_submodule_name, *args)
         except TypeError:
-            original_command = " ".join(self.get_path()).strip()
-            original_command += " " if original_command != "" else original_command
-            extra_command = args[0]
-            help_statement = " ".join(["help", original_command]).strip()
-            print(
-                red(
-                    f'Undefined {original_command}command: "{extra_command}". '
-                    f'Try "{help_statement}".'
+            if self.get_path() == ["help"]:
+                self = (
+                    mate_config.module_record.get_module_by_path(inline_submodule_name)
+                    or mate_config.module_record
                 )
-            )
+                inline_submodule_name = args[0]
+                args = args[1:]
+            if inline_submodule_name in self.INLINE_SUBMODULES:
+                original_command = " ".join(
+                    self.get_path() + [inline_submodule_name]
+                ).strip()
+                extra_command = args[0]
+            else:
+                original_command = " ".join(self.get_path()).strip()
+                extra_command = inline_submodule_name
+            if original_command == "":
+                print(red(f'Undefined command: "{extra_command}". ' f'Try "help".'))
+            else:
+                print(
+                    red(
+                        f'Undefined {original_command} command: "{extra_command}". '
+                        f'Try "help {original_command}".'
+                    )
+                )
             return False
 
     return tmp_func

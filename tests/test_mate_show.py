@@ -17,7 +17,7 @@ def test_show_inline_submodule_mate_with_invalid_argument_should_print_error_in_
 ):
     mate_config.module_record.parse_command(["show", "mate", "YOYO"])
     out, err = capfd.readouterr()
-    assert out == 'Undefined show command: "YOYO". Try "help show".\n'
+    assert out == 'Undefined show mate command: "YOYO". Try "help show mate".\n'
 
 
 # def test_show_submodule_plugins_with_no_arguments_should_print_dummy_message(capfd):
