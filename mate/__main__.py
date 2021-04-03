@@ -9,6 +9,9 @@ from mate.config import mate_config
 from prompt_toolkit import PromptSession
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.styles import Style
+from prompt_toolkit.completion import NestedCompleter
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.application import run_in_terminal
 
 from mate.libs import mate_hookspecs
 from mate.utils.logger import log, shellLogHandler
@@ -16,6 +19,17 @@ from mate.utils.colors import red, yellow, green
 from mate.modules.core import MateRecord
 from mate.modules.internal import *
 from mate.__version__ import __version__
+
+
+bindings = KeyBindings()
+
+
+@bindings.add("c-d")
+def _(event):
+    def take_it_easy():
+        print(red("Try Ctrl-C maybe?"))
+
+    run_in_terminal(take_it_easy)
 
 
 def get_plugin_manager():
@@ -190,6 +204,10 @@ def main():
         mate_config.module_record.parse_command(shlex.split(args.exec))
         return
 
+    completer = NestedCompleter.from_nested_dict(
+        mate_config.module_record.get_autocompleter()
+    )
+
     # setting up interpreter prompt
     history_file = mate_config.mate_hist
     session = PromptSession(
@@ -205,8 +223,9 @@ def main():
             prompt = session.prompt(
                 prompt_message(),
                 style=prompt_style(),
-                completer=None,
+                completer=completer,
                 complete_while_typing=True,
+                key_bindings=bindings,
             )
             command = prompt.strip()
             # passing cmd string tokens for parsing

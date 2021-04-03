@@ -96,6 +96,17 @@ class MateModule:
         else:
             return []
 
+    def get_autocompleter(self):
+        module = self
+        module_completer = {}
+        for m in module.INLINE_SUBMODULES:
+            if m == "":
+                continue
+            module_completer[m] = None
+        for m in module.submodules:
+            module_completer[m.get_name()] = m.get_autocompleter() or None
+        return module_completer
+
     def get_path(self):
         """Calculates path of current module.
 
