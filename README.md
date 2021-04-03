@@ -1,8 +1,9 @@
 # Mate: Extremely pluggable and modular shell
-![](https://img.shields.io/github/workflow/status/twisted-fun/mate/build%20tests?logo=github)
-![](https://img.shields.io/github/license/twisted-fun/mate?logo=github)
-![](https://img.shields.io/github/languages/code-size/twisted-fun/mate?logo=github)
-![](https://img.shields.io/github/last-commit/twisted-fun/mate?logo=github)
+[![](https://img.shields.io/github/workflow/status/twisted-fun/mate/build%20tests?logo=github)](https://github.com/twisted-fun/mate/actions)
+[![](https://img.shields.io/github/license/twisted-fun/mate?logo=github)](https://github.com/twisted-fun/mate/blob/master/LICENSE)
+[![](https://img.shields.io/github/languages/code-size/twisted-fun/mate?logo=github)]()
+[![](https://img.shields.io/github/last-commit/twisted-fun/mate?logo=github)](https://github.com/twisted-fun/mate/commits/master)
+[![](https://img.shields.io/badge/sentry-active-brightgreen)](https://sentry.io/organizations/r00t3r/projects/)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=twisted-fun_mate&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=twisted-fun_mate)
 ## Features
 - Easy plugin creation using setuptools
