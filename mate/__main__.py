@@ -15,7 +15,6 @@ from mate.utils.logger import log, shellLogHandler
 from mate.utils.colors import red, yellow, green
 from mate.modules.core import MateRecord
 from mate.modules.internal import *
-from mate.modules.plugins import *
 from mate.__version__ import __version__
 
 
@@ -29,7 +28,7 @@ def get_plugin_manager():
     pm.add_hookspecs(mate_hookspecs)
     pm.load_setuptools_entrypoints("mate")
     for x in sys.modules:
-        if "mate.modules.internal." in x or "mate.modules.plugins." in x:
+        if "mate.modules.internal." in x:
             pm.register(sys.modules[x])
     # pm.register(sys.modules[__name__])
     return pm
