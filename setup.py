@@ -23,7 +23,7 @@ setup(
     url="https://github.com/twisted-fun/mate",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    project_url={
+    project_urls={
         "Source Code": "https://github.com/twisted-fun/mate",
         "Documentation": "https://github.com/twisted-fun/mate/README.md",
     },
