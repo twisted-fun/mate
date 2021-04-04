@@ -1,5 +1,6 @@
 # Mate: Extremely pluggable and modular shell
 [![build](https://github.com/twisted-fun/mate/actions/workflows/python-package.yml/badge.svg)](https://github.com/twisted-fun/mate/actions/workflows/python-package.yml)
+[![pypi](https://img.shields.io/pypi/v/mate-shell?logo=pypi)](https://pypi.org/project/mate-shell/)
 [![](https://img.shields.io/github/license/twisted-fun/mate?logo=github)](https://github.com/twisted-fun/mate/blob/master/LICENSE)
 [![codecov](https://codecov.io/gh/twisted-fun/mate/branch/master/graph/badge.svg?token=AIQF2UVD8B)](https://codecov.io/gh/twisted-fun/mate)
 [![](https://img.shields.io/github/last-commit/twisted-fun/mate?logo=github)](https://github.com/twisted-fun/mate/commits/master)
