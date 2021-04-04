@@ -15,6 +15,10 @@
 - Supports batch executions by `mate --exec`
 
 ## Installation
+### Using pypi
+```bash
+pip3 install mate-shell
+```
 ### Using git
 ```bash
 git clone https://github.com/twisted-fun/mate.git
@@ -23,7 +27,7 @@ pip3 install -e .
 ```
 
 ## Usage
-```
+```bash
 $ mate --help
 usage: mate [-h] [-V] [--debug] [-p PROJECT_DIR] [-o OUTPUT_DIR] [-s SOCKET] [--shells SHELLS] [--exec EXEC]
 
@@ -39,4 +43,21 @@ optional arguments:
                         Provide [Protocol]Host[:Port] of a service for analysis.
   --shells SHELLS       Specify setuptools group names separated by comma to fetch plugins instead of default 'mate'.
   --exec EXEC           Provide mate shell command for batch execution.
+```
+```bash
+$ mate
+mate 0.0.1
+For help, type "help".
+Loading modules... Done.
+mate [+] > help
+
+>>> -- Drops user into ipython shell with the result of command specified.
+find -- Generic command to find various artifacts.
+help -- Print list of commands.
+ls -- Satisfies your command line itch.
+pwd -- Prints current working directory.
+sh -- Interface to shell.
+show -- Generic command for showing things about mate.
+
+mate [+] >
 ```
