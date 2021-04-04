@@ -60,4 +60,75 @@ sh -- Interface to shell.
 show -- Generic command for showing things about mate.
 
 mate [+] >
+
+( ╥﹏╥) ノシ  bye...
+
+$
 ```
+
+## Plugins
+Commands can be added into mate shell as plugins. And it's super easy!
+### Writing a plugin
+```python
+# demo_plugin.py
+from mate import add_plugins, command
+
+
+def sxor(s1, s2):
+    return "".join(chr(ord(a) ^ ord(b)) for a, b in zip(s1, s2))
+
+
+@command(option="xor")
+def bitwise_string_xor(self, str1, str2):
+    """A bitwise xor operation for two strings."""
+    return {"result": sxor(str1, str2).__repr__()}
+
+
+add_plugins(modules=[bitwise_string_xor])
+```
+```python
+# setup.py
+from setuptools import setup
+
+setup(
+    name="mate-demo-plugin",
+    install_requires="mate-shell",
+    entry_points={"mate": ["bitwise_str_xor = demo_plugin"]},
+    py_modules=["demo_plugin"],
+)
+```
+
+### Installing the plugin
+```bash
+pip3 install -e .
+```
+
+### Accessing the plugin
+```bash
+$ mate
+mate 0.0.1
+For help, type "help".
+Loading modules... Done.
+mate [+] > help
+
+>>> -- Drops user into ipython shell with the result of command specified.
+find -- Generic command to find various artifacts.
+help -- Print list of commands.
+ls -- Satisfies your command line itch.
+pwd -- Prints current working directory.
+sh -- Interface to shell.
+show -- Generic command for showing things about mate.
+xor -- A bitwise xor operation for two strings.
+
+mate [+] > xor AAA AAA
+
+result '\x00\x00\x00'
+
+mate [+] >
+
+( ╥﹏╥) ノシ  bye...
+
+$
+```
+
+### More? [Example Plugins](https://github.com/twisted-fun/mate-infosec-plugins)
