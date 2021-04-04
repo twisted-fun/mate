@@ -1,4 +1,5 @@
 # pylint: disable=undefined-variable
+from os import path
 from setuptools import setup, find_packages
 from mate.__version__ import __author__, __version__
 
@@ -10,17 +11,23 @@ def read_requirements():
 
 requirements = read_requirements()
 
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, "README.md"), "r", encoding="utf8") as f:
+    long_description = f.read()
+
 setup(
-    name="mate",
+    name="mate-shell",
     license="GPL",
     version=__version__,
     author=__author__,
     url="https://github.com/twisted-fun/mate",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     project_url={
         "Source Code": "https://github.com/twisted-fun/mate",
         "Documentation": "https://github.com/twisted-fun/mate/README.md",
     },
-    packages=find_packages(),
+    packages=find_packages(exclude=(["tests", "docs"])),
     install_requires=requirements,
     classifiers=[
         "Programming Language :: Python :: 3.6",
