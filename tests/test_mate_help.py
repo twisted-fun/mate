@@ -36,6 +36,13 @@ def cmd_names_in_help_with_show(capfd):
     return [line.split(" -- ")[0] for line in out.splitlines() if line != ""]
 
 
+@pytest.fixture(scope="function")
+def cmd_names_in_help_with_show_all(capfd):
+    mate_config.module_record.parse_command(["help", "show", "all"])
+    out, err = capfd.readouterr()
+    return [line.split(" -- ")[0] for line in out.splitlines() if line != ""]
+
+
 def test_help_default_with_no_arguments_should_print_only_one_word_commands(
     cmd_names_in_help_with_no_args,
 ):
@@ -59,6 +66,12 @@ def test_help_default_with_more_than_zero_arguments_should_print_only_self_and_a
         for module_name in show_module_names
     ]
     assert sorted(should_be_command_column) == cmd_names_in_help_with_show
+
+
+def test_help_default_with_leaf_module_should_show_only_their_help(
+    cmd_names_in_help_with_show_all,
+):
+    assert cmd_names_in_help_with_show_all == ["show all"]
 
 
 def test_help_show_plugins_with_invalid_argument_should_print_error_in_correct_format(

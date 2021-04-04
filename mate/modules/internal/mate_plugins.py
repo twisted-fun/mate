@@ -11,7 +11,7 @@ class MateShowPlugins(MateModule):
         for m in mate_config.plugin_manager.list_name_plugin():
             if "mate.modules." not in m[0]:
                 results[m[0]] = m[1]
-        return results
+        return results or "No plugin found."
 
 
 @command(option="time")
