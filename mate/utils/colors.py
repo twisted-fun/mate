@@ -1,123 +1,47 @@
 import sys
-from colorama import Fore, Back
+from rich.console import Console
+
+console = Console()
+
+
+def mprint_str(s, end="\n"):
+    console.print(f"[white]{str(s)}[/white]", end=end)
+
+
+def mprint_list(li):
+    console.print(
+        "[bold blue],[/bold blue] ".join(map(lambda x: f"[white]{str(x)}[/white]", li))
+    )
+
+
+def mprint_dict(d, indent=0):
+    indent_inc = 0
+    for idx, key in enumerate(d):
+        if indent != 0 and idx != 0:
+            console.print(" " * indent, "[yellow]|-[/yellow]", end=" ")
+        console.print(
+            f"[bold magenta]{str(key)}[/bold magenta]", "[yellow]--[/yellow]", end=" "
+        )
+        if isinstance(d[key], dict):
+            if indent != 0:
+                indent_inc = 4
+            indent_inc += len(str(key))
+        mprint_obj(d[key], indent + indent_inc)
+        if indent == 0 and indent_inc != 0 and idx != len(list(d)) - 1:
+            print()
+        indent_inc = 0
+
+
+def mprint_obj(o, indent=0):
+    if isinstance(o, dict):
+        mprint_dict(o, indent)
+    elif isinstance(o, list) or isinstance(o, tuple):
+        mprint_list(o)
+    else:
+        mprint_str(o)
 
 
 def mate_print(data):
-    if isinstance(data, dict):
-        print()
-        for key in data:
-            print(magenta(str(key)) + " " + str(data[key]))
-        print()
-    elif isinstance(data, str):
-        print(data)
-    elif isinstance(data, list):
-        print()
-        for ele in data:
-            print(magenta(str(ele)))
-        print()
-    return True
-
-
-def yellow_background(s: str) -> str:  # pragma: no cover
-    """Yellow color string if tty
-
-    Args:
-        s (str): String to color
-
-    Returns:
-        str: Colored string
-    """
-    if sys.stdout.isatty():
-        return Back.YELLOW + Fore.BLACK + s + Fore.RESET + Back.RESET
-    else:
-        return s
-
-
-def red(s: str) -> str:  # pragma: no cover
-    """Red color string if tty
-
-    Args:
-        s (str): String to color
-
-    Returns:
-        str: Colored string
-    """
-    if sys.stdout.isatty():
-        return Fore.RED + s + Fore.RESET
-    else:
-        return s
-
-
-def blue(s: str) -> str:  # pragma: no cover
-    """Blue color string if tty
-
-    Args:
-        s (str): String to color
-
-    Returns:
-        str: Colored string
-    """
-    if sys.stdout.isatty():
-        return Fore.BLUE + s + Fore.RESET
-    else:
-        return s
-
-
-def cyan(s: str) -> str:  # pragma: no cover
-    """Cyan color string if tty
-
-    Args:
-        s (str): String to color
-
-    Returns:
-        str: Colored string
-    """
-    if sys.stdout.isatty():
-        return Fore.CYAN + s + Fore.RESET
-    else:
-        return s
-
-
-def green(s: str) -> str:  # pragma: no cover
-    """Green color string if tty
-
-    Args:
-        s (str): String to color
-
-    Returns:
-        str: Colored string
-    """
-    if sys.stdout.isatty():
-        return Fore.GREEN + s + Fore.RESET
-    else:
-        return s
-
-
-def yellow(s: str) -> str:  # pragma: no cover
-    """Yellow color string if tty
-
-    Args:
-        s (str): String to color
-
-    Returns:
-        str: Colored string
-    """
-    if sys.stdout.isatty():
-        return Fore.YELLOW + s + Fore.RESET
-    else:
-        return s
-
-
-def magenta(s: str) -> str:  # pragma: no cover
-    """Magenta color string if tty
-
-    Args:
-        s (str): String to color
-
-    Returns:
-        str: Colored string
-    """
-    if sys.stdout.isatty():
-        return Fore.MAGENTA + s + Fore.RESET
-    else:
-        return s
+    print()
+    mprint_obj(data)
+    print()

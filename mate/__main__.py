@@ -16,7 +16,7 @@ from prompt_toolkit.application import run_in_terminal
 
 from mate.libs import mate_hookspecs
 from mate.utils.logger import log, shellLogHandler
-from mate.utils.colors import red, yellow, green
+from mate.utils.colors import console
 from mate.modules.core import MateRecord
 from mate.modules.internal import *
 from mate.__version__ import __version__
@@ -28,7 +28,7 @@ bindings = KeyBindings()
 @bindings.add("c-d")
 def _(event):
     def take_it_easy():
-        print(red("Try Ctrl-C maybe?"))
+        console.print("[red]Try Ctrl-C maybe?[/red]")
 
     run_in_terminal(take_it_easy)
 
@@ -70,7 +70,7 @@ def load_plugins():
 
 def print_banner():
     """Prints mate's banner i.e. version info."""
-    print(green("mate " + __version__))
+    console.print("[green]mate " + __version__ + "[/green]")
     print('For help, type "help".')
 
 
@@ -249,7 +249,7 @@ def main():
                 set_prompt_status("-")
 
     except KeyboardInterrupt:
-        print(yellow("\n( ╥﹏╥) ノシ  ") + red("bye...\n"))
+        console.print("[yellow]\n( ╥﹏╥) ノシ  [/yellow][red]bye...\n[/red]")
         sys.exit()
     except Exception:
         log.error("Wait! What happened now...", exc_info=True)

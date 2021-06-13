@@ -4,7 +4,7 @@ import subprocess
 import itertools
 import functools
 
-from mate.utils.colors import red, magenta, mate_print
+from mate.utils.colors import mate_print, console
 from mate.utils.logger import log
 from mate.utils.exceptions import mate_exception_handler
 
@@ -211,12 +211,12 @@ class MateModule:
 def ls_default(*args):
     """Satisfies your command line itch."""
     ls_args = " ".join(args)
-    return subprocess.getoutput("ls " + ls_args + " --color")
+    return subprocess.getoutput("ls " + ls_args)
 
 
 def pwd_default():
     """Prints current working directory."""
-    return magenta("Working directory: ") + str(pathlib.Path.cwd())
+    return {"Working directory": str(pathlib.Path.cwd())}
 
 
 def sh_default(*args):
@@ -296,7 +296,9 @@ class MateRecord(MateModule):
         import IPython
 
         results = self.parse_command(list(args), shouldPrint=False)  # noqa: F841
-        print(magenta("Command output is stored in variable: ") + red("results"))
+        console.print(
+            "[magenta]Command output is stored in variable: [/magenta][red]results[/red]"
+        )
         IPython.embed(colors="neutral")
         return True
 
@@ -326,16 +328,20 @@ class MateRecord(MateModule):
                         params = tuple(cmd_tokens[len(path) + 1 :])
                     results = module_to_exec.execute(inline_submodule_name, *params)
                     if shouldPrint and results:
-                        return mate_print(results)
+                        mate_print(results)
+                        return True
                     else:
                         return results
 
             if cmd_tokens[0] in self.INLINE_SUBMODULES:
                 results = self.execute(cmd_tokens[0], *cmd_tokens[1:])
                 if shouldPrint and results:
-                    return mate_print(results)
+                    mate_print(results)
+                    return True
                 else:
                     return results
             invalid_command = cmd_tokens[0]
-            print(red(f'Undefined command: "{invalid_command}". Try "help".'))
+            console.print(
+                f'[red]Undefined command: "{invalid_command}". Try "help".[/red]'
+            )
             return False

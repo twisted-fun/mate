@@ -1,5 +1,5 @@
 import functools
-from mate.utils.colors import red
+from mate.utils.colors import console
 from mate.config import mate_config
 
 
@@ -36,13 +36,13 @@ def mate_exception_handler(func):
                 extra_command = inline_submodule_name
 
             if original_command == "":
-                print(red(f'Undefined command: "{extra_command}". ' f'Try "help".'))
+                console.print(
+                    f'[red]Undefined command: "{extra_command}". ' f'Try "help".[/red]'
+                )
             else:
-                print(
-                    red(
-                        f'Undefined {original_command} command: "{extra_command}". '
-                        f'Try "help {original_command}".'
-                    )
+                console.print(
+                    f'[red]Undefined {original_command} command: "{extra_command}". '
+                    f'Try "help {original_command}".[/red]'
                 )
             return False
 
