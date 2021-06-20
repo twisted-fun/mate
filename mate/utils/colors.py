@@ -1,47 +1,69 @@
-import sys
 from rich.console import Console
+from rich.tree import Tree
 
-console = Console()
+console = Console(highlight=False)
 
-
-def mprint_str(s, end="\n"):
-    console.print(f"[white]{str(s)}[/white]", end=end)
-
-
-def mprint_list(li):
-    console.print(
-        "[bold blue],[/bold blue] ".join(map(lambda x: f"[white]{str(x)}[/white]", li))
-    )
-
-
-def mprint_dict(d, indent=0):
-    indent_inc = 0
-    for idx, key in enumerate(d):
-        if indent != 0 and idx != 0:
-            console.print(" " * indent, "[yellow]|-[/yellow]", end=" ")
-        console.print(
-            f"[bold magenta]{str(key)}[/bold magenta]", "[yellow]--[/yellow]", end=" "
-        )
-        if isinstance(d[key], dict):
-            if indent != 0:
-                indent_inc = 4
-            indent_inc += len(str(key))
-        mprint_obj(d[key], indent + indent_inc)
-        if indent == 0 and indent_inc != 0 and idx != len(list(d)) - 1:
-            print()
-        indent_inc = 0
+LEVELS = [
+    "medium_violet_red",
+    "bright_magenta",
+    "bright_cyan",
+    "hot_pink3",
+    "dark_goldenrod",
+    "sea_green3",
+]
 
 
-def mprint_obj(o, indent=0):
-    if isinstance(o, dict):
-        mprint_dict(o, indent)
-    elif isinstance(o, list) or isinstance(o, tuple):
-        mprint_list(o)
+def is_dict(obj):
+    return isinstance(obj, dict)
+
+
+def is_list_or_tuple(obj):
+    return isinstance(obj, list) or isinstance(obj, tuple)
+
+
+def is_nested(obj):
+    if isinstance(obj, str) or isinstance(obj, int) or isinstance(obj, float):
+        return False
+    elif is_dict(obj) or is_list_or_tuple(obj):
+        return True
+    elif "__rich_console__" in dir(obj):
+        return False
     else:
-        mprint_str(o)
+        # defaulting to False for now, so that custom object just gets printed as string
+        return False
+
+
+def populate_tree(node, data, level=1):
+    if not is_nested(data):
+        node.add(data)
+    elif is_dict(data):
+        for k, v in data.items():
+            tmp_node = node.add(f"[bold {LEVELS[level]}]{k}[/bold {LEVELS[level]}]")
+            populate_tree(tmp_node, v, level + 1)
+            # if not is_nested(v):
+            #     node.add(f"[bold magenta]{k}[/bold magenta] [yellow]──[/yellow] {v}")
+            # else:
+            #     tmp_node = node.add(f"[bold magenta]{k}[/bold magenta]")
+            #     populate_tree(tmp_node, v)
+    elif is_list_or_tuple(data):
+        for x in data:
+            populate_tree(node, x)
 
 
 def mate_print(data):
-    print()
-    mprint_obj(data)
-    print()
+    if is_dict(data):
+        console.print()
+        for k, v in data.items():
+            root = Tree(f"[bold {LEVELS[0]}]{k}", guide_style="yellow")
+            populate_tree(root, v)
+            console.print(root)
+            console.print()
+    elif is_list_or_tuple(data):
+        root = Tree("", guide_style="yellow")
+        populate_tree(root, data)
+        console.print(root)
+        console.print()
+    else:
+        console.print()
+        console.print(data)
+        console.print()
