@@ -53,11 +53,15 @@ def populate_tree(node, data, level=1):
 def mate_print(data):
     if is_dict(data):
         console.print()
-        for k, v in data.items():
+        data_len = len(data)
+        for idx, itm in enumerate(data.items()):
+            k, v = itm
             root = Tree(f"[bold {LEVELS[0]}]{k}", guide_style="yellow")
             populate_tree(root, v)
             console.print(root)
-            console.print()
+            if idx != data_len - 1 and is_nested(v):
+                console.print()
+        console.print()
     elif is_list_or_tuple(data):
         root = Tree("", guide_style="yellow")
         populate_tree(root, data)
