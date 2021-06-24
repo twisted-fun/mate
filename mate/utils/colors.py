@@ -26,8 +26,6 @@ def is_nested(obj):
         return False
     elif is_dict(obj) or is_list_or_tuple(obj):
         return True
-    elif "__rich_console__" in dir(obj):
-        return False
     else:
         # defaulting to False for now, so that custom object just gets printed as string
         return False
@@ -35,6 +33,8 @@ def is_nested(obj):
 
 def populate_tree(node, data, level=1):
     if not is_nested(data):
+        node.add(str(data))
+    elif "__rich_console__" in dir(data):
         node.add(data)
     elif is_dict(data):
         for k, v in data.items():
