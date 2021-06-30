@@ -1,5 +1,6 @@
 from rich.console import Console
 from rich.tree import Tree
+import re
 
 console = Console(highlight=False)
 
@@ -71,3 +72,14 @@ def mate_print(data):
         console.print()
         console.print(data)
         console.print()
+
+
+def remove_markup_tags(string_with_markups):
+    got = re.findall(r"\[([^\[]+?)\]", string_with_markups)
+    tmp_str = string_with_markups
+    for x in got:
+        if not x.startswith("/"):
+            y = "/" + x
+            if y in got:
+                tmp_str = tmp_str.replace(f"[{x}]", "").replace(f"[{y}]", "")
+    return tmp_str
