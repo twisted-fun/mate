@@ -3,6 +3,7 @@ import pathlib
 import subprocess
 import itertools
 import functools
+import json
 
 from mate.utils.colors import mate_print, console
 from mate.utils.logger import log
@@ -300,7 +301,12 @@ class MateRecord(MateModule):
             "[magenta]Command output is stored in variable: [/magenta][red]results[/red]"
         )
         IPython.embed(colors="neutral")
-        return True
+
+    @command(option="json")
+    def get_json_output(self, *args):
+        """Get result of command specified in json."""
+        results = self.parse_command(list(args), shouldPrint=False)  # noqa: F841
+        print(json.dumps(results, indent=2))
 
     def parse_command(self, cmd_tokens, shouldPrint=True):
         """Parse and execute command from command tokens provided.
