@@ -13,7 +13,7 @@
 - Forced modularity in plugins
 - Dope looking shell
 - Provides command output redirect to embedded ipython
-- Supports batch executions by `mate --exec`
+- Supports batch executions by `mate --exec` and JSON formatted output
 
 ## Installation
 ### Using pypi
@@ -28,44 +28,7 @@ pip3 install -e .
 ```
 
 ## Usage
-```bash
-$ mate --help
-usage: mate [-h] [-V] [--debug] [-p PROJECT_DIR] [-o OUTPUT_DIR] [-s SOCKET] [--shells SHELLS] [--exec EXEC]
-
-optional arguments:
-  -h, --help            Show this help message
-  -V, --version         Show version number
-  --debug               Set console log level to DEBUG.
-  -p PROJECT_DIR, --project-dir PROJECT_DIR
-                        Specify root directory of a project for analysis.
-  -o OUTPUT_DIR, --output-dir OUTPUT_DIR
-                        Specify root directory to store various result files.
-  -s SOCKET, --socket SOCKET
-                        Provide [Protocol]Host[:Port] of a service for analysis.
-  --shells SHELLS       Specify setuptools group names separated by comma to fetch plugins instead of default 'mate'.
-  --exec EXEC           Provide mate shell command for batch execution.
-```
-```bash
-$ mate
-mate 0.0.1
-For help, type "help".
-Loading modules... Done.
-mate [+] > help
-
->>> -- Drops user into ipython shell with the result of command specified.
-find -- Generic command to find various artifacts.
-help -- Print list of commands.
-ls -- Satisfies your command line itch.
-pwd -- Prints current working directory.
-sh -- Interface to shell.
-show -- Generic command for showing things about mate.
-
-mate [+] >
-
-( ╥﹏╥) ノシ  bye...
-
-$
-```
+Hope this [asciinema](https://asciinema.org/a/CcOaU2HRsYV27iCUmMEFygyJQ) will help.
 
 ## Plugins
 Commands can be added into mate shell as plugins. And it's super easy!
@@ -105,31 +68,6 @@ pip3 install -e .
 ```
 
 ### Accessing the plugin
-```bash
-$ mate
-mate 0.0.1
-For help, type "help".
-Loading modules... Done.
-mate [+] > help
-
->>> -- Drops user into ipython shell with the result of command specified.
-find -- Generic command to find various artifacts.
-help -- Print list of commands.
-ls -- Satisfies your command line itch.
-pwd -- Prints current working directory.
-sh -- Interface to shell.
-show -- Generic command for showing things about mate.
-xor -- A bitwise xor operation for two strings.
-
-mate [+] > xor AAA AAA
-
-result '\x00\x00\x00'
-
-mate [+] >
-
-( ╥﹏╥) ノシ  bye...
-
-$
-```
+Check out this [asciinema](https://asciinema.org/a/Q46B1et1VTUwwczTJAhgoyk3y).
 
 ### More? [Example Plugins](https://github.com/twisted-fun/mate-infosec-plugins)

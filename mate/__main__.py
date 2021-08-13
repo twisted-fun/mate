@@ -165,12 +165,6 @@ def parse_args(args):
         help="Specify root directory to store various result files.",
     )
     parse.add_argument(
-        "-s",
-        "--socket",
-        dest="socket",
-        help="Provide [Protocol]Host[:Port] of a service for analysis.",
-    )
-    parse.add_argument(
         "--shells",
         dest="shells",
         default="mate",
@@ -194,8 +188,6 @@ def main():
         mate_config.project_dir = args.project_dir
     if args.output_dir:
         mate_config.output_dir = args.output_dir
-    if args.socket:
-        mate_config.socket = args.socket
     if args.shells:
         mate_config.shells = args.shells.strip().strip(",").split(",")
 
