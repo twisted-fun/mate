@@ -1,7 +1,9 @@
 # pylint: disable=undefined-variable
 from os import path
 from setuptools import setup, find_packages
-from mate.__version__ import __author__, __version__
+
+__version__ = "0.0.4"
+__author__ = "r00t3r"
 
 
 def read_requirements():
